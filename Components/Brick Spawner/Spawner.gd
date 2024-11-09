@@ -6,12 +6,14 @@ var preloadedBrick = preload("res://Components/Brick/brick.tscn")
 
 var next_spawnTime: float = 1
 
-var spawnReady = 0
-# Called when the node enters the scene tree for the first time.
 func _ready():
+	activate()
+
+func activate():
 	$SpawnTimer.start(next_spawnTime)
-	#spawnTimer.start(next_spawnTime)
-	spawnReady = 0
+	
+func deactivate():
+	$SpawnTimer.stop()
 
 func _on_spawn_timer_timeout():
 	next_spawnTime = randf_range(.7,1.2) * 1/spawnSpeed

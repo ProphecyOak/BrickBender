@@ -7,22 +7,36 @@ var rotation_direction: float = 1
 var horizontalSpeed: float = 0
 var fallSpeed: float = 5
 var shotBack: bool = false
+var health: int = 4
+var lastHit = 0
 
 func _ready():
 	# Set random rotation speed and direction
 	rotation_speed = randf_range(0.01, 0.1) 
 	var rotation_direction_random_num: float = randf_range(0,1)
-	if rotation_direction_random_num < .5:
-		rotation_direction = 1
-	else:
-		rotation_direction = -1
+	rotation_direction = 1 if rotation_direction_random_num < .5 else -1
 
 func _physics_process(_delta):
 	position += (Vector2(horizontalSpeed, fallSpeed))
 	rotation += rotation_direction * rotation_speed
 	
 func shoot():
+	if Time.get_unix_time_from_system() - lastHit < .3: return
+	health -= 1
+	if health <= 0:
+		breakApart()
+		return
 	horizontalSpeed = 10
 	if shotBack: horizontalSpeed *= -1
 	shotBack = !shotBack
 	fallSpeed = 0
+	
+func breakApart():
+	$Hurtbox.set_monitorable(false)
+	$Hitbox.set_monitorable(false)
+	modulate = Color(0, .5, 0)
+	horizontalSpeed *= -.1
+	fallSpeed = 3
+	await get_tree().create_timer(.5).timeout
+	queue_free()
+	

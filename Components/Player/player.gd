@@ -14,7 +14,10 @@ var crouching: bool = false
 var jumping: bool = false
 var jumpHeight: float = 75
 var health: int = 3
+var dead = false
 @onready var birthTime = Time.get_unix_time_from_system()
+
+var lastAggression = 0
 
 func _ready():
 	PlayerManager.players[deviceNum] = self
@@ -22,12 +25,12 @@ func _ready():
 	speed *= shotDirection
 
 func _process(_delta):
-	if playerControlled: checkForInputs()
 	if health == 0:
-		var newTime = Time.get_unix_time_from_system()
-		print("You lived for " + str(newTime - birthTime) + " seconds")
-		birthTime = newTime
-		health = 3
+		die()
+	if dead: return
+	if playerControlled: checkForInputs()
+	else: determineAIBehavior()
+	get_parent().updateUI()
 
 func toggleJoined():
 	playerControlled = !playerControlled
@@ -40,7 +43,16 @@ func checkForInputs():
 		if MultiplayerInput.is_action_just_pressed(deviceNum, "Punch"): punch()
 		if MultiplayerInput.is_action_just_pressed(deviceNum, "Kick"): kick()
 	move(Input.get_joy_axis(deviceNum, JOY_AXIS_LEFT_X))
-		
+
+func determineAIBehavior():
+	if Time.get_unix_time_from_system() - lastAggression > .5:
+		if len($AI/InFrontFist.get_overlapping_areas()) > 0 and randf() < .8:
+			await get_tree().create_timer(.1).timeout
+			punch()
+		elif len($AI/InFrontFoot.get_overlapping_areas()) > 0 and randf() < .8:
+			await get_tree().create_timer(.1).timeout
+			kick()
+
 func move(strength: float):
 	if abs(strength) >= 0.4:
 		self.position.x = clamp(self.position.x + strength * speed, get_parent().edgeBound, get_parent().centerBound) as float
@@ -65,6 +77,7 @@ func crouch(crouchingOn: bool):
 func punch():
 	if punching == true: return
 	punching = true
+	lastAggression = Time.get_unix_time_from_system()
 	#print("Punch")
 	$Fist.position.x += 10
 	for brickBox: Area2D in fistBox.get_overlapping_areas():
@@ -76,6 +89,7 @@ func punch():
 func kick():
 	if kicking == true: return
 	kicking = true
+	lastAggression = Time.get_unix_time_from_system()
 	#print("Kick")
 	$Foot.position.x += 10
 	for brickBox: Area2D in footBox.get_overlapping_areas():
@@ -85,6 +99,22 @@ func kick():
 	kicking = false
 
 func hitByBrick(area):
+	if Time.get_unix_time_from_system() - birthTime < 1 or dead: return
 	health -= 1
 	(area.get_parent() as Brick).queue_free()
 
+func die():
+	dead = true
+	var newTime = Time.get_unix_time_from_system()
+	print("You lived for " + str(newTime - birthTime) + " seconds")
+	get_parent().updateUI()
+	health = 3
+	$"../Spawner".deactivate()
+	visible = false
+	await get_tree().create_timer(2).timeout
+	visible = true
+	dead = false
+	$"../Spawner".activate()
+	birthTime = newTime
+
+ 
