@@ -10,6 +10,10 @@ var punching: bool = false
 var kicking: bool = false
 @onready var footBox: Area2D = $Foot/HitBox
 
+var crouching: bool = false
+var jumping: bool = false
+var jumpHeight: float = 75
+
 func _ready():
 	PlayerManager.players[deviceNum] = self
 	print("Player: " + str(deviceNum) + " has shotDirection: " + str(shotDirection))
@@ -23,13 +27,33 @@ func toggleJoined():
 	print("Player is " + ("not " if not playerControlled else "") + "in control")
 	
 func checkForInputs():
-	if MultiplayerInput.is_action_just_pressed(deviceNum, "Punch"): punch()
-	if MultiplayerInput.is_action_just_pressed(deviceNum, "Kick"): kick()
+	crouch(MultiplayerInput.get_action_raw_strength(deviceNum, "Crouch") > .4)
+	if MultiplayerInput.get_action_raw_strength(deviceNum, "Jump") > .7: jump()
+	if !crouching and !jumping:
+		if MultiplayerInput.is_action_just_pressed(deviceNum, "Punch"): punch()
+		if MultiplayerInput.is_action_just_pressed(deviceNum, "Kick"): kick()
 	move(Input.get_joy_axis(deviceNum, JOY_AXIS_LEFT_X))
 		
 func move(strength: float):
 	if abs(strength) >= 0.4:
 		self.position.x = clamp(self.position.x + strength * speed, get_parent().edgeBound, get_parent().centerBound) as float
+
+func jump():
+	if jumping: return
+	jumping = true
+	$Standing.position.y -= jumpHeight
+	await get_tree().create_timer(.5).timeout
+	$Standing.position.y += jumpHeight
+	jumping = false
+
+func crouch(crouchingOn: bool):
+	crouching = crouchingOn
+	$Crouching.visible = crouching
+	$Standing.visible = !crouching
+	$Fist.visible = !crouching and !jumping
+	$Foot.visible = !crouching and !jumping
+	$Standing/HurtBox.set_monitoring(!crouching)
+	$Crouching/HurtBox.set_monitoring(crouching)
 
 func punch():
 	if punching == true: return
@@ -53,6 +77,6 @@ func kick():
 	$Foot.position.x -= 10
 	kicking = false
 
-
 func hitByBrick(area):
 	(area.get_parent() as Brick).queue_free()
+
