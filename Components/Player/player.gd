@@ -39,6 +39,9 @@ func toggleJoined():
 	print("Player is " + ("not " if not playerControlled else "") + "in control")
 	
 func checkForInputs():
+	if punching == false:
+		print("playing idle")
+		$Standing/AnimationPlayer.play("idle")
 	crouch(MultiplayerInput.get_action_raw_strength(deviceNum, "Crouch") > .4)
 	if MultiplayerInput.get_action_raw_strength(deviceNum, "Jump") > .7: jump()
 	if !crouching and !jumping:
@@ -93,6 +96,8 @@ func crouch(crouchingOn: bool):
 	$Crouching/HurtBox.set_monitoring(crouching)
 
 func punch():
+	print("playing punch")
+	$Standing/AnimationPlayer.play("punch")
 	if punching == true: return
 	punching = true
 	lastAggression = Time.get_unix_time_from_system()
