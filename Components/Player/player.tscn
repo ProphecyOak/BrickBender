@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://cciiqc7rl4val"]
+[gd_scene load_steps=5 format=3 uid="uid://cciiqc7rl4val"]
 
 [ext_resource type="Script" path="res://Components/Player/player.gd" id="1_813ld"]
 [ext_resource type="Texture2D" uid="uid://c8107w5cacaxo" path="res://Assets/icon.svg" id="1_f7eq7"]
@@ -6,6 +6,9 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w0hfb"]
 radius = 27.0
 height = 152.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kdb7r"]
+size = Vector2(103.405, 168.96)
 
 [node name="Player" type="StaticBody2D"]
 script = ExtResource("1_813ld")
@@ -22,7 +25,20 @@ position = Vector2(22, -15)
 scale = Vector2(0.289063, 0.195313)
 texture = ExtResource("1_f7eq7")
 
+[node name="HitBox" type="Area2D" parent="Fist"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fist/HitBox"]
+position = Vector2(41.703, 0)
+shape = SubResource("RectangleShape2D_kdb7r")
+
 [node name="Foot" type="Sprite2D" parent="."]
 position = Vector2(23, 59)
 scale = Vector2(0.289063, 0.195313)
 texture = ExtResource("1_f7eq7")
+
+[node name="HitBox" type="Area2D" parent="Foot"]
+position = Vector2(-3.459, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Foot/HitBox"]
+position = Vector2(41.703, 0)
+shape = SubResource("RectangleShape2D_kdb7r")

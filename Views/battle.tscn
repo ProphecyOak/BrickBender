@@ -1,17 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://ey4l83s7fmnc"]
+[gd_scene load_steps=2 format=3 uid="uid://ey4l83s7fmnc"]
 
-[ext_resource type="PackedScene" uid="uid://c300wclerm15h" path="res://Components/Brick/brick.tscn" id="1_areu5"]
-[ext_resource type="PackedScene" uid="uid://cciiqc7rl4val" path="res://Components/Player/player.tscn" id="2_dr0wq"]
+[ext_resource type="PackedScene" uid="uid://vp6gfhvel8tj" path="res://Components/Player Container/player_container.tscn" id="2_0i2ab"]
 
 [node name="Main" type="Node2D"]
 
-[node name="Brick" parent="." instance=ExtResource("1_areu5")]
-position = Vector2(376, 20)
+[node name="Player Container" parent="." instance=ExtResource("2_0i2ab")]
 
-[node name="Player" parent="." instance=ExtResource("2_dr0wq")]
-position = Vector2(176, 150)
-
-[node name="Player2" parent="." instance=ExtResource("2_dr0wq")]
-position = Vector2(936, 149)
+[node name="Player Container2" parent="." instance=ExtResource("2_0i2ab")]
+position = Vector2(1150, 0)
 scale = Vector2(-1, 1)
 deviceNum = 1
