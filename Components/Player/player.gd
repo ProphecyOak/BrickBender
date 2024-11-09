@@ -39,7 +39,7 @@ func toggleJoined():
 	print("Player is " + ("not " if not playerControlled else "") + "in control")
 	
 func checkForInputs():
-	if punching == false:
+	if punching == false and kicking == false:
 		print("playing idle")
 		$Standing/AnimationPlayer.play("idle")
 	crouch(MultiplayerInput.get_action_raw_strength(deviceNum, "Crouch") > .4)
@@ -90,7 +90,7 @@ func crouch(crouchingOn: bool):
 	crouching = crouchingOn
 	$Crouching.visible = crouching
 	$Standing.visible = !crouching
-	$Foot.visible = !crouching and !jumping
+	#$Foot.visible = !crouching and !jumping
 	$Standing/HurtBox.set_monitoring(!crouching)
 	$Crouching/HurtBox.set_monitoring(crouching)
 
@@ -109,6 +109,8 @@ func punch():
 	punching = false
 
 func kick():
+	print("playing kick")
+	$Standing/AnimationPlayer.play("kick")
 	if kicking == true: return
 	kicking = true
 	lastAggression = Time.get_unix_time_from_system()
