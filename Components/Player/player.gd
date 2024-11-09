@@ -13,6 +13,8 @@ var kicking: bool = false
 var crouching: bool = false
 var jumping: bool = false
 var jumpHeight: float = 75
+var health: int = 3
+@onready var birthTime = Time.get_unix_time_from_system()
 
 func _ready():
 	PlayerManager.players[deviceNum] = self
@@ -21,6 +23,11 @@ func _ready():
 
 func _process(_delta):
 	if playerControlled: checkForInputs()
+	if health == 0:
+		var newTime = Time.get_unix_time_from_system()
+		print("You lived for " + str(newTime - birthTime) + " seconds")
+		birthTime = newTime
+		health = 3
 
 func toggleJoined():
 	playerControlled = !playerControlled
@@ -61,7 +68,7 @@ func punch():
 	#print("Punch")
 	$Fist.position.x += 10
 	for brickBox: Area2D in fistBox.get_overlapping_areas():
-		(brickBox.get_parent() as Brick).shoot(self)
+		(brickBox.get_parent() as Brick).shoot()
 	await get_tree().create_timer(.1).timeout
 	$Fist.position.x -= 10
 	punching = false
@@ -72,11 +79,12 @@ func kick():
 	#print("Kick")
 	$Foot.position.x += 10
 	for brickBox: Area2D in footBox.get_overlapping_areas():
-		(brickBox.get_parent() as Brick).shoot(self)
+		(brickBox.get_parent() as Brick).shoot()
 	await get_tree().create_timer(.1).timeout
 	$Foot.position.x -= 10
 	kicking = false
 
 func hitByBrick(area):
+	health -= 1
 	(area.get_parent() as Brick).queue_free()
 

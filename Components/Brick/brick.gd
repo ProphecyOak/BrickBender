@@ -21,7 +21,7 @@ func _physics_process(_delta):
 	position += (Vector2(horizontalSpeed, fallSpeed))
 	rotation += rotation_direction * rotation_speed
 	
-func shoot(player: PlayerCharacter):
+func shoot():
 	horizontalSpeed = 10
 	if shotBack: horizontalSpeed *= -1
 	shotBack = !shotBack
