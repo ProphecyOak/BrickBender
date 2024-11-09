@@ -4,6 +4,7 @@ class_name PlayerCharacter
 @onready var deviceNum: int = get_parent().deviceNum
 var speed: float = 3
 var playerControlled: bool = false
+@onready var shotDirection = get_parent().scale.x
 var punching: bool = false
 @onready var fistBox: Area2D = $Fist/HitBox
 var kicking: bool = false
@@ -11,6 +12,8 @@ var kicking: bool = false
 
 func _ready():
 	PlayerManager.players[deviceNum] = self
+	print("Player: " + str(deviceNum) + " has shotDirection: " + str(shotDirection))
+	speed *= shotDirection
 
 func _process(_delta):
 	if playerControlled: checkForInputs()

@@ -6,7 +6,7 @@ var rotation_speed: float = 0.0
 var rotation_direction: float = 1
 var horizontalSpeed: float = 0
 var fallSpeed: float = 5
-var shot: bool = false
+var shotBack: bool = false
 
 func _ready():
 	# Set random rotation speed and direction
@@ -22,6 +22,7 @@ func _physics_process(_delta):
 	rotation += rotation_direction * rotation_speed
 	
 func shoot(player: PlayerCharacter):
-	shot = true
-	horizontalSpeed = player.scale.x * 10
+	horizontalSpeed = 10
+	if shotBack: horizontalSpeed *= -1
+	shotBack = !shotBack
 	fallSpeed = 0
