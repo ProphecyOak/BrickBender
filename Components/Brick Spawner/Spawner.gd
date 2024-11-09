@@ -2,9 +2,9 @@ extends Node2D
 
 var preloadedBrick = preload("res://Components/Brick/brick.tscn")
 
-@export var spawnSpeed = 1 
+@export var spawnSpeed: float = 1 
 
-var next_spawnTime = 1
+var next_spawnTime: float = 1
 
 var spawnReady = 0
 # Called when the node enters the scene tree for the first time.
@@ -31,7 +31,7 @@ func _on_spawn_timer_timeout():
 	print(next_spawnTime)
 	$SpawnTimer.start(next_spawnTime)
 	#sets position for new brick instance
-	var xPos = randf_range(0, 500)
+	var xPos: int = randf_range(0, 500)
 	
 
 	#creates new brick instance
