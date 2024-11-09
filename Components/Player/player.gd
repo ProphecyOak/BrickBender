@@ -1,11 +1,13 @@
-extends StaticBody2D
+extends Node2D
 class_name PlayerCharacter
 
 @onready var deviceNum: int = get_parent().deviceNum
 var speed: float = 3
 var playerControlled: bool = false
-var kicking: bool = false
 var punching: bool = false
+@onready var fistBox: Area2D = $Fist/HitBox
+var kicking: bool = false
+@onready var footBox: Area2D = $Foot/HitBox
 
 func _ready():
 	PlayerManager.players[deviceNum] = self
@@ -31,14 +33,23 @@ func punch():
 	punching = true
 	#print("Punch")
 	$Fist.position.x += 10
+	for brickBox: Area2D in fistBox.get_overlapping_areas():
+		(brickBox.get_parent() as Brick).shoot(self)
 	await get_tree().create_timer(.1).timeout
 	$Fist.position.x -= 10
 	punching = false
 
 func kick():
 	if kicking == true: return
+	kicking = true
 	#print("Kick")
 	$Foot.position.x += 10
+	for brickBox: Area2D in footBox.get_overlapping_areas():
+		(brickBox.get_parent() as Brick).shoot(self)
 	await get_tree().create_timer(.1).timeout
 	$Foot.position.x -= 10
-	pass
+	kicking = false
+
+
+func hitByBrick(area):
+	(area.get_parent() as Brick).queue_free()

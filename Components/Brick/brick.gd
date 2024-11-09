@@ -1,8 +1,12 @@
-extends StaticBody2D
+extends Node2D
+class_name Brick
 
 # Variables to control rotation... 1 for clockwise, -1 for counterclockwise
 var rotation_speed: float = 0.0
-var rotation_direction: float = 1 
+var rotation_direction: float = 1
+var horizontalSpeed: float = 0
+var fallSpeed: float = 5
+var shot: bool = false
 
 func _ready():
 	# Set random rotation speed and direction
@@ -14,5 +18,10 @@ func _ready():
 		rotation_direction = -1
 
 func _physics_process(_delta):
-	move_and_collide(Vector2(0, 10))
+	position += (Vector2(horizontalSpeed, fallSpeed))
 	rotation += rotation_direction * rotation_speed
+	
+func shoot(player: PlayerCharacter):
+	shot = true
+	horizontalSpeed = player.scale.x * 10
+	fallSpeed = 0

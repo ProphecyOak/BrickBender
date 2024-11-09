@@ -3,22 +3,19 @@
 [ext_resource type="Script" path="res://Components/Player/player.gd" id="1_813ld"]
 [ext_resource type="Texture2D" uid="uid://c8107w5cacaxo" path="res://Assets/icon.svg" id="1_f7eq7"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kdb7r"]
+size = Vector2(321.351, 304.64)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w0hfb"]
 radius = 27.0
 height = 152.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kdb7r"]
-size = Vector2(103.405, 168.96)
-
-[node name="Player" type="StaticBody2D"]
+[node name="Player" type="Node2D"]
 script = ExtResource("1_813ld")
 
 [node name="Icon" type="Sprite2D" parent="."]
 scale = Vector2(0.460938, 1.22656)
 texture = ExtResource("1_f7eq7")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_w0hfb")
 
 [node name="Fist" type="Sprite2D" parent="."]
 position = Vector2(22, -15)
@@ -26,9 +23,11 @@ scale = Vector2(0.289063, 0.195313)
 texture = ExtResource("1_f7eq7")
 
 [node name="HitBox" type="Area2D" parent="Fist"]
+collision_layer = 4
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Fist/HitBox"]
-position = Vector2(41.703, 0)
+position = Vector2(150, -67.84)
 shape = SubResource("RectangleShape2D_kdb7r")
 
 [node name="Foot" type="Sprite2D" parent="."]
@@ -38,7 +37,18 @@ texture = ExtResource("1_f7eq7")
 
 [node name="HitBox" type="Area2D" parent="Foot"]
 position = Vector2(-3.459, 0)
+collision_layer = 4
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Foot/HitBox"]
-position = Vector2(41.703, 0)
+position = Vector2(150, 0)
 shape = SubResource("RectangleShape2D_kdb7r")
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("CapsuleShape2D_w0hfb")
+
+[connection signal="area_entered" from="HurtBox" to="." method="hitByBrick"]

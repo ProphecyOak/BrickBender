@@ -53,6 +53,12 @@ Move={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Layer 1"
+2d_physics/layer_2="Brick Attacks"
+2d_physics/layer_3="Player Attacks"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

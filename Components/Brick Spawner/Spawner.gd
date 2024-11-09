@@ -12,8 +12,6 @@ func _ready():
 	$SpawnTimer.start(next_spawnTime)
 	#spawnTimer.start(next_spawnTime)
 	spawnReady = 0
-	print("Started first timer")
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -26,9 +24,7 @@ func _process(delta):
 
 
 func _on_spawn_timer_timeout():
-	print("New Brick")
 	next_spawnTime = randf_range(.7,1.2) * 1/spawnSpeed
-	print(next_spawnTime)
 	$SpawnTimer.start(next_spawnTime)
 	#sets position for new brick instance
 	var xPos: int = randf_range(0, 500)

@@ -11,3 +11,4 @@ script = ExtResource("1_tdm3w")
 position = Vector2(44, 342)
 
 [node name="Spawner" parent="." instance=ExtResource("3_fh032")]
+spawnSpeed = 0.5
