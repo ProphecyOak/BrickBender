@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://c300wclerm15h"]
 
 [ext_resource type="Script" path="res://Components/Brick/brick.gd" id="1_1skka"]
-[ext_resource type="Texture2D" uid="uid://h0ng3w1nmjpv" path="res://Assets/icon.svg" id="1_4qqox"]
+[ext_resource type="Texture2D" uid="uid://c8107w5cacaxo" path="res://Assets/icon.svg" id="1_4qqox"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0q1gr"]
 size = Vector2(136, 70)

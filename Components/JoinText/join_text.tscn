@@ -12,9 +12,9 @@ script = ExtResource("1_bfgxq")
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 2
 offset_left = 200.0
-offset_top = 127.5
+offset_top = 120.0
 offset_right = 400.0
-offset_bottom = 327.5
+offset_bottom = 320.0
 
 [node name="Label" type="Label" parent="PanelContainer"]
 custom_minimum_size = Vector2(200, 0)
@@ -27,9 +27,9 @@ vertical_alignment = 1
 [node name="PanelContainer2" type="PanelContainer" parent="."]
 layout_mode = 2
 offset_left = 750.0
-offset_top = 127.5
+offset_top = 120.0
 offset_right = 950.0
-offset_bottom = 327.5
+offset_bottom = 320.0
 
 [node name="Label" type="Label" parent="PanelContainer2"]
 custom_minimum_size = Vector2(200, 0)

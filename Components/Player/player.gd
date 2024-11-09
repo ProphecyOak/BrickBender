@@ -27,8 +27,8 @@ func _ready():
 	speed *= shotDirection
 
 func _process(_delta):
-	if health == 0:
-		die()
+	print(deviceNum, health)
+	if health == 0: PlayerManager.resetPlayers(self)
 	if dead: return
 	if playerControlled: checkForInputs()
 	else: determineAIBehavior()
@@ -120,19 +120,3 @@ func hitByBrick(area):
 	if Time.get_unix_time_from_system() - birthTime < 1 or dead: return
 	health -= 1
 	(area.get_parent() as Brick).queue_free()
-
-func die():
-	dead = true
-	var newTime = Time.get_unix_time_from_system()
-	print("You lived for " + str(newTime - birthTime) + " seconds")
-	get_parent().updateUI()
-	health = 3
-	$"../Spawner".deactivate()
-	visible = false
-	await get_tree().create_timer(2).timeout
-	visible = true
-	dead = false
-	$"../Spawner".activate()
-	birthTime = newTime
-
- 
