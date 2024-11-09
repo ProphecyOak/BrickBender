@@ -90,7 +90,6 @@ func crouch(crouchingOn: bool):
 	crouching = crouchingOn
 	$Crouching.visible = crouching
 	$Standing.visible = !crouching
-	$Fist.visible = !crouching and !jumping
 	$Foot.visible = !crouching and !jumping
 	$Standing/HurtBox.set_monitoring(!crouching)
 	$Crouching/HurtBox.set_monitoring(crouching)

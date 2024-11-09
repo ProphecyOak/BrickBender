@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=3 uid="uid://cciiqc7rl4val"]
 
 [ext_resource type="Script" path="res://Components/Player/player.gd" id="1_813ld"]
-[ext_resource type="Texture2D" uid="uid://h0ng3w1nmjpv" path="res://Assets/icon.svg" id="1_f7eq7"]
-[ext_resource type="Texture2D" uid="uid://6je6t4gpvbp7" path="res://Assets/Assets.png" id="2_iju3m"]
+[ext_resource type="Texture2D" uid="uid://c8107w5cacaxo" path="res://Assets/icon.svg" id="1_f7eq7"]
+[ext_resource type="Texture2D" uid="uid://5yx8vpg1e6wl" path="res://Assets/Assets.png" id="2_iju3m"]
 
 [sub_resource type="Animation" id="Animation_1nhp8"]
 resource_name = "idle"
