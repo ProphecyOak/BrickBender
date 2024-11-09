@@ -19,7 +19,7 @@ func _on_spawn_timer_timeout():
 	next_spawnTime = randf_range(.7,1.2) * 1/spawnSpeed
 	$SpawnTimer.start(next_spawnTime)
 	#sets position for new brick instance
-	var xPos: float = randf_range(0, 500)
+	var xPos: float = randf_range(get_parent().edgeBound, get_parent().centerBound)
 	
 
 	#creates new brick instance

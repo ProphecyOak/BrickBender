@@ -18,6 +18,8 @@ var dead = false
 @onready var birthTime = Time.get_unix_time_from_system()
 
 var lastAggression = 0
+var startedMoving = 0
+var moveDirection = 1
 
 func _ready():
 	PlayerManager.players[deviceNum] = self
@@ -45,13 +47,29 @@ func checkForInputs():
 	move(Input.get_joy_axis(deviceNum, JOY_AXIS_LEFT_X))
 
 func determineAIBehavior():
+	var currentTime = Time.get_unix_time_from_system()
+	if currentTime - startedMoving > .5: moveDirection = 0
+	var bricksAbove = $AI/AboveHead.get_overlapping_areas()
+	if len(bricksAbove) > 0:
+		#Brick falling on head
+		moveDirection = directionToMove(bricksAbove[0].get_parent())
+		startedMoving = currentTime
+	move(moveDirection)
 	if Time.get_unix_time_from_system() - lastAggression > .5:
 		if len($AI/InFrontFist.get_overlapping_areas()) > 0 and randf() < .8:
+			#Brick in punching range
 			await get_tree().create_timer(.1).timeout
 			punch()
 		elif len($AI/InFrontFoot.get_overlapping_areas()) > 0 and randf() < .8:
+			#Brick in kicking range
 			await get_tree().create_timer(.1).timeout
 			kick()
+
+func directionToMove(brickAbove: Brick):
+	if abs(position.x - get_parent().edgeBound) < 100: return 1
+	if abs(position.x - get_parent().centerBound) < 100: return -1
+	var brickDiff: float = brickAbove.position.x - position.x
+	return -abs(brickDiff)/brickDiff
 
 func move(strength: float):
 	if abs(strength) >= 0.4:

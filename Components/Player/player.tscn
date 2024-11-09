@@ -18,7 +18,7 @@ size = Vector2(321.351, 304.64)
 size = Vector2(56, 84.75)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ejjl"]
-size = Vector2(88, 78)
+size = Vector2(88, 190)
 
 [node name="Player" type="Node2D"]
 script = ExtResource("1_813ld")
@@ -101,7 +101,7 @@ collision_layer = 4
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AI/AboveHead"]
-position = Vector2(0, -137)
+position = Vector2(0, -190)
 shape = SubResource("RectangleShape2D_1ejjl")
 
 [connection signal="area_entered" from="Standing/HurtBox" to="." method="hitByBrick"]
