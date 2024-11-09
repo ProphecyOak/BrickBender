@@ -1,8 +1,47 @@
-[gd_scene load_steps=9 format=3 uid="uid://cciiqc7rl4val"]
+[gd_scene load_steps=12 format=3 uid="uid://cciiqc7rl4val"]
 
 [ext_resource type="Script" path="res://Components/Player/player.gd" id="1_813ld"]
 [ext_resource type="Texture2D" uid="uid://h0ng3w1nmjpv" path="res://Assets/icon.svg" id="1_f7eq7"]
-[ext_resource type="Texture2D" uid="uid://bkpc12pyqo3fw" path="res://Assets/frame_00001.png" id="2_ryar1"]
+[ext_resource type="Texture2D" uid="uid://6je6t4gpvbp7" path="res://Assets/Assets.png" id="2_iju3m"]
+
+[sub_resource type="Animation" id="Animation_1nhp8"]
+resource_name = "idle"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_qgiba"]
+resource_name = "punch"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1jn4w"]
+_data = {
+"idle": SubResource("Animation_1nhp8"),
+"punch": SubResource("Animation_qgiba")
+}
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w0hfb"]
 radius = 27.0
@@ -25,13 +64,19 @@ size = Vector2(88, 78)
 script = ExtResource("1_813ld")
 
 [node name="Standing" type="Sprite2D" parent="."]
-position = Vector2(15, -14)
-scale = Vector2(0.233936, 0.267863)
-texture = ExtResource("2_ryar1")
+position = Vector2(66, -4)
+scale = Vector2(0.166817, 0.170207)
+texture = ExtResource("2_iju3m")
+hframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Standing"]
+libraries = {
+"": SubResource("AnimationLibrary_1jn4w")
+}
 
 [node name="HurtBox" type="Area2D" parent="Standing"]
-position = Vector2(-64.1202, 52.2655)
-scale = Vector2(4.27468, 3.73325)
+position = Vector2(-395.643, 23.501)
+scale = Vector2(5.99459, 5.87521)
 collision_layer = 4
 collision_mask = 2
 
@@ -52,6 +97,7 @@ collision_mask = 2
 shape = SubResource("CapsuleShape2D_1xgon")
 
 [node name="Fist" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(22, -15)
 scale = Vector2(0.289063, 0.195313)
 texture = ExtResource("1_f7eq7")
