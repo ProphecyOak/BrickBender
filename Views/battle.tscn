@@ -1,8 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://ey4l83s7fmnc"]
+[gd_scene load_steps=3 format=3 uid="uid://ey4l83s7fmnc"]
 
 [ext_resource type="PackedScene" uid="uid://c300wclerm15h" path="res://Components/Brick/brick.tscn" id="1_areu5"]
+[ext_resource type="PackedScene" uid="uid://dx6vaflohfs7k" path="res://Components/Brick Spawner/spawner.tscn" id="2_stl0f"]
 
 [node name="Main" type="Node2D"]
 
 [node name="Brick" parent="." instance=ExtResource("1_areu5")]
 position = Vector2(86, 45)
+
+[node name="Spawner" parent="." instance=ExtResource("2_stl0f")]
+position = Vector2(2, -1)
+
+[node name="Spawner2" parent="." instance=ExtResource("2_stl0f")]
+position = Vector2(639, 0)
