@@ -11,8 +11,14 @@ config_version=5
 [application]
 
 config/name="Brick Bender"
+run/main_scene="res://Views/battle.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://Assets/icon.svg"
+
+[display]
+
+window/size/mode=3
+window/stretch/mode="viewport"
 
 [rendering]
 
