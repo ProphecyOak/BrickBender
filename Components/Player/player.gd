@@ -4,13 +4,11 @@ extends Node2D
 class_name PlayerCharacter
 
 @onready var deviceNum: int = get_parent().deviceNum
-var speed: float = 3
+var speed: float = 300
 var playerControlled: bool = false
 @onready var shotDirection = get_parent().scale.x
 var punching: bool = false
-@onready var fistBox: Area2D = $Fist/HitBox
 var kicking: bool = false
-@onready var footBox: Area2D = $Foot/HitBox
 
 var crouching: bool = false
 var jumping: bool = false
@@ -41,25 +39,25 @@ func _process(delta):
 			modulate = Color(1,1,1) if modulate == Color(.5, .5, .5) else Color(.5, .5, .5)
 	if health == 0: PlayerManager.resetPlayers(self)
 	if dead: return
-	if !punching and !kicking and !jumping:
-		$Standing/AnimationPlayer.play("idle" if !crouching else "crouch")
-	if playerControlled: checkForInputs()
-	else: determineAIBehavior()
+	if !punching and !kicking and !jumping: $Standing/AnimationPlayer.play("idle" if !crouching else "crouch")
+	if playerControlled: checkForInputs(delta)
+	else: determineAIBehavior(delta)
 	get_parent().updateUI()
+	if deviceNum == 1: print("Punching: " + str(punching) + " Kicking: " + str(kicking) + " Jumping: " + str(jumping) + " Crouching: " + str(crouching))
 
 func toggleJoined():
 	playerControlled = !playerControlled
 	print("Player is " + ("not " if not playerControlled else "") + "in control")
 	
-func checkForInputs():
+func checkForInputs(delta: float):
 	crouch(!jumping and MultiplayerInput.get_action_raw_strength(deviceNum, "Crouch") > .4)
 	if MultiplayerInput.get_action_raw_strength(deviceNum, "Jump") > .7: jump()
-	if !crouching and !jumping:
+	if !crouching and !jumping and !punching and !kicking:
 		if MultiplayerInput.is_action_just_pressed(deviceNum, "Punch"): punch()
 		if MultiplayerInput.is_action_just_pressed(deviceNum, "Kick"): kick()
-	move(MultiplayerInput.get_axis(deviceNum, "Left", "Right"))
+	move(delta, MultiplayerInput.get_axis(deviceNum, "Left", "Right"))
 
-func determineAIBehavior():
+func determineAIBehavior(delta: float):
 	var currentTime = Time.get_unix_time_from_system()
 	if currentTime - startedMoving > .5: moveDirection = 0
 	var bricksAbove = $AI/AboveHead.get_overlapping_areas()
@@ -68,7 +66,7 @@ func determineAIBehavior():
 		moveDirection = directionToMove(bricksAbove[0].get_parent())
 		moveDirection *= 1 if deviceNum == 0 else -1
 		startedMoving = currentTime
-	move(moveDirection)
+	move(delta, moveDirection)
 	if Time.get_unix_time_from_system() - lastAggression > .5:
 		if len($AI/InFrontFist.get_overlapping_areas()) > 0 and randf() < .8:
 			#Brick in punching range
@@ -90,28 +88,31 @@ func anim_done(anim_name: String):
 	if anim_name == "kick": kickDone()
 	if anim_name == "punch": punchDone()
 
-func move(strength: float):
+func move(delta: float, strength: float):
 	if abs(strength) >= 0.4:
-		self.position.x = clamp(self.position.x + strength * speed, get_parent().edgeBound, get_parent().centerBound) as float
+		self.position.x = clamp(self.position.x + strength * speed * delta, get_parent().edgeBound, get_parent().centerBound) as float
 
 func jump():
 	if jumping: return
 	jumping = true
 	$Standing/AnimationPlayer.play("jump")
-	$Standing/StandingHurtBox.set_monitorable(false)
-	$Standing/JumpingHurtBox.set_monitorable(true)
+	$StandingHurtBox.set_monitorable(false)
+	$JumpingHurtBox.set_monitorable(true)
+	$Standing.position.y -= 30
 	
 func jumpDone():
-	$Standing/StandingHurtBox.set_monitorable(true)
-	$Standing/JumpingHurtBox.set_monitorable(false)
+	$Standing.position.y += 30
+	$StandingHurtBox.set_monitorable(true)
+	$JumpingHurtBox.set_monitorable(false)
 	$Standing/AnimationPlayer.play("idle")
 	await get_tree().create_timer(.25).timeout
 	jumping = false
 
 func crouch(crouchingOn: bool):
 	crouching = crouchingOn
-	$Standing/StandingHurtBox.set_monitoring(!crouching)
-	$Crouching/HurtBox.set_monitoring(crouching)
+	$Standing.position.y = 0 if !crouching else 30
+	$StandingHurtBox.set_monitoring(!crouching)
+	$CrouchingHurtBox.set_monitoring(crouching)
 
 func punch():
 	if punching == true: return
@@ -119,14 +120,14 @@ func punch():
 	punching = true
 	lastAggression = Time.get_unix_time_from_system()
 	#print("Punch")
-	$Fist.position.x += 10
-	for brickBox: Area2D in fistBox.get_overlapping_areas():
+	$FistHitBox.position.x += 10
+	for brickBox: Area2D in $FistHitBox.get_overlapping_areas():
 		(brickBox.get_parent() as Brick).shoot()
 	
 func punchDone():
 	$Standing/AnimationPlayer.play("idle")
 	await get_tree().create_timer(.25).timeout
-	$Fist.position.x -= 10
+	$FistHitBox.position.x -= 10
 	punching = false
 
 func kick():
@@ -135,17 +136,14 @@ func kick():
 	kicking = true
 	lastAggression = Time.get_unix_time_from_system()
 	#print("Kick")
-	$Foot.position.x += 10
-	for brickBox: Area2D in footBox.get_overlapping_areas():
+	$FootHitBox.position.x += 10
+	for brickBox: Area2D in $FootHitBox.get_overlapping_areas():
 		(brickBox.get_parent() as Brick).shoot()
-	await get_tree().create_timer(.1).timeout
-	$Foot.position.x -= 10
-	kicking = false
 	
 func kickDone():
 	$Standing/AnimationPlayer.play("idle")
 	await get_tree().create_timer(.25).timeout
-	$Foot.position.x -= 10
+	$FootHitBox.position.x -= 10
 	kicking = false
 
 func hitByBrick(area):

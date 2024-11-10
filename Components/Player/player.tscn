@@ -1,8 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://cciiqc7rl4val"]
+[gd_scene load_steps=17 format=3 uid="uid://cciiqc7rl4val"]
 
 [ext_resource type="Script" path="res://Components/Player/player.gd" id="1_813ld"]
-[ext_resource type="Texture2D" uid="uid://h0ng3w1nmjpv" path="res://Assets/icon.svg" id="1_f7eq7"]
-[ext_resource type="Texture2D" uid="uid://6je6t4gpvbp7" path="res://Assets/Assets.png" id="2_iju3m"]
+[ext_resource type="Texture2D" uid="uid://5yx8vpg1e6wl" path="res://Assets/Assets.png" id="2_iju3m"]
 
 [sub_resource type="Animation" id="Animation_v7kjl"]
 resource_name = "crouch"
@@ -32,10 +31,26 @@ tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.1),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_c7byj"]
+resource_name = "jump"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.075, 0.85, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 5, 4, 5, 0]
 }
 
 [sub_resource type="Animation" id="Animation_ujx4h"]
@@ -70,22 +85,6 @@ tracks/0/keys = {
 "values": [1, 0]
 }
 
-[sub_resource type="Animation" id="Animation_c7byj"]
-resource_name = "jump"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.075, 0.85, 0.9),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 5, 4, 5, 0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1jn4w"]
 _data = {
 "crouch": SubResource("Animation_v7kjl"),
@@ -99,24 +98,34 @@ _data = {
 radius = 27.0
 height = 152.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cnm8q"]
+radius = 161.854
+height = 693.273
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1xgon"]
-radius = 56.0848
+radius = 48.8481
 height = 198.552
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kdb7r"]
-size = Vector2(321.351, 304.64)
+size = Vector2(263.541, 322.559)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3osva"]
+size = Vector2(415.04, 247.191)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_82b3t"]
-size = Vector2(56, 84.75)
+size = Vector2(75, 100.375)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_26uur"]
+size = Vector2(110, 70.2797)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ejjl"]
-size = Vector2(88, 78)
+size = Vector2(132, 78)
 
 [node name="Player" type="Node2D"]
 script = ExtResource("1_813ld")
 
 [node name="Standing" type="Sprite2D" parent="."]
-position = Vector2(66, -4)
+position = Vector2(64.9315, 1.72033)
 scale = Vector2(0.166817, 0.170207)
 texture = ExtResource("2_iju3m")
 hframes = 3
@@ -128,61 +137,61 @@ libraries = {
 "": SubResource("AnimationLibrary_1jn4w")
 }
 
-[node name="HurtBox" type="Area2D" parent="Standing"]
-position = Vector2(-395.643, 23.501)
-scale = Vector2(5.99459, 5.87521)
+[node name="StandingHurtBox" type="Area2D" parent="."]
+position = Vector2(0, 6)
+scale = Vector2(0.999999, 1)
 collision_layer = 4
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Standing/HurtBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StandingHurtBox"]
 shape = SubResource("CapsuleShape2D_w0hfb")
 
-[node name="Crouching" type="Sprite2D" parent="."]
+[node name="JumpingHurtBox" type="Area2D" parent="."]
 visible = false
-position = Vector2(0, 46.75)
-scale = Vector2(0.552734, 0.496092)
-texture = ExtResource("1_f7eq7")
+position = Vector2(0, -24)
+scale = Vector2(0.166817, 0.170207)
+monitorable = false
 
-[node name="HurtBox" type="Area2D" parent="Crouching"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="JumpingHurtBox"]
+shape = SubResource("CapsuleShape2D_cnm8q")
+
+[node name="CrouchingHurtBox" type="Area2D" parent="."]
+visible = false
+position = Vector2(0, 51)
+scale = Vector2(0.552734, 0.496092)
 collision_layer = 4
 collision_mask = 2
+monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Crouching/HurtBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CrouchingHurtBox"]
 position = Vector2(0, -15.6221)
 shape = SubResource("CapsuleShape2D_1xgon")
 
-[node name="Fist" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(22, -15)
+[node name="FistHitBox" type="Area2D" parent="."]
+position = Vector2(11.9315, -13.2797)
 scale = Vector2(0.289063, 0.195313)
-texture = ExtResource("1_f7eq7")
-
-[node name="HitBox" type="Area2D" parent="Fist"]
 collision_layer = 4
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Fist/HitBox"]
-position = Vector2(150, -67.84)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FistHitBox"]
+position = Vector2(183.277, -67.6879)
+scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_kdb7r")
 
-[node name="Foot" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(23, 59)
+[node name="FootHitBox" type="Area2D" parent="."]
+position = Vector2(11.9316, 60.7203)
 scale = Vector2(0.289063, 0.195313)
-texture = ExtResource("1_f7eq7")
-
-[node name="HitBox" type="Area2D" parent="Foot"]
-position = Vector2(-3.459, 0)
 collision_layer = 4
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Foot/HitBox"]
-position = Vector2(150, 0)
-shape = SubResource("RectangleShape2D_kdb7r")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FootHitBox"]
+position = Vector2(235.29, 51.9158)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_3osva")
 
 [node name="AI" type="Node2D" parent="."]
-visible = false
 modulate = Color(1, 0.345098, 1, 1)
+position = Vector2(-10.0685, 1.72033)
 
 [node name="InFrontFist" type="Area2D" parent="AI"]
 light_mask = 4
@@ -191,7 +200,7 @@ collision_layer = 4
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AI/InFrontFist"]
-position = Vector2(100, -38)
+position = Vector2(106.5, -36.1875)
 shape = SubResource("RectangleShape2D_82b3t")
 
 [node name="InFrontFoot" type="Area2D" parent="AI"]
@@ -199,16 +208,18 @@ collision_layer = 4
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AI/InFrontFoot"]
-position = Vector2(100, 49)
-shape = SubResource("RectangleShape2D_82b3t")
+position = Vector2(127, 57.1398)
+shape = SubResource("RectangleShape2D_26uur")
 
 [node name="AboveHead" type="Area2D" parent="AI"]
 collision_layer = 4
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AI/AboveHead"]
-position = Vector2(16, -190)
+position = Vector2(0, -185)
 shape = SubResource("RectangleShape2D_1ejjl")
 
-[connection signal="area_entered" from="Standing/HurtBox" to="." method="hitByBrick"]
-[connection signal="area_entered" from="Crouching/HurtBox" to="." method="hitByBrick"]
+[connection signal="animation_finished" from="Standing/AnimationPlayer" to="." method="anim_done"]
+[connection signal="area_entered" from="StandingHurtBox" to="." method="hitByBrick"]
+[connection signal="area_entered" from="JumpingHurtBox" to="." method="hitByBrick"]
+[connection signal="area_entered" from="CrouchingHurtBox" to="." method="hitByBrick"]
