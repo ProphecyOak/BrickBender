@@ -3,7 +3,7 @@ extends Node2D
 var players: Array[PlayerCharacter] = [null, null]
 var connected: Array[bool] = [false, false]
 var joinTexts: Array[Node2D] = [null, null]
-var winnerTexts: Array[PanelContainer] = [null, null]
+var winnerTexts: Array[TextureRect] = [null, null]
 var pointCountdown: Control = null
 var controlsPanel: Node2D = null
 
