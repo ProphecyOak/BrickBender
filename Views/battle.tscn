@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://ey4l83s7fmnc"]
+[gd_scene load_steps=21 format=3 uid="uid://ey4l83s7fmnc"]
 
 [ext_resource type="Texture2D" uid="uid://ca5cpr03wtkvm" path="res://Assets/gradient.jpeg" id="1_pb0kb"]
 [ext_resource type="PackedScene" uid="uid://vp6gfhvel8tj" path="res://Components/Player Container/player_container.tscn" id="2_0i2ab"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://Components/FreezeControl/freeze_control.gd" id="8_f4nd3"]
 [ext_resource type="FontFile" uid="uid://bdhxt1c22fhf2" path="res://Assets/Robot Crush.ttf" id="9_ut2uh"]
 [ext_resource type="Script" path="res://Components/JoinText/point_counters.gd" id="9_xr0cm"]
+[ext_resource type="PackedScene" uid="uid://d4e00855lbixy" path="res://Components/Player/pointCounter.tscn" id="11_21ynk"]
 [ext_resource type="PackedScene" uid="uid://c4oua7bf7qqwd" path="res://Components/ControlsPanel/controls.tscn" id="11_ugsj7"]
 [ext_resource type="AudioStream" uid="uid://ibjibmwl1fu6" path="res://Assets/Street Fighter II OST Ken Theme.mp3" id="12_d5llo"]
 [ext_resource type="AudioStream" uid="uid://b65f42kg5hu14" path="res://Assets/beep.wav" id="12_hr3ow"]
@@ -226,21 +227,14 @@ offset_right = 1150.0
 offset_bottom = 650.0
 script = ExtResource("9_xr0cm")
 
-[node name="Label" type="Label" parent="PointCounters"]
+[node name="Label" parent="PointCounters" instance=ExtResource("11_21ynk")]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 25.0
-offset_top = -63.0
-offset_right = 390.0
-offset_bottom = -25.0
-grow_vertical = 0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("9_ut2uh")
-theme_override_font_sizes/font_size = 45
-text = "200000000000000"
-vertical_alignment = 1
+offset_left = 20.0
+offset_top = -49.0
+offset_right = 360.0
+offset_bottom = -20.0
+text = "0"
 
 [node name="Timer" type="Label" parent="PointCounters"]
 layout_mode = 1
@@ -261,25 +255,18 @@ theme_override_font_sizes/font_size = 55
 text = "20000s"
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="PointCounters"]
+[node name="Label2" parent="PointCounters" instance=ExtResource("11_21ynk")]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -390.0
-offset_top = -63.0
-offset_right = -25.0
-offset_bottom = -25.0
+offset_left = -365.0
+offset_top = -112.0
+offset_right = -20.0
+offset_bottom = 25.0
 grow_horizontal = 0
-grow_vertical = 0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("9_ut2uh")
-theme_override_font_sizes/font_size = 45
-text = "200000000000000"
+text = "0"
 horizontal_alignment = 2
-vertical_alignment = 1
 
 [node name="Countdown" type="Timer" parent="PointCounters"]
 one_shot = true
