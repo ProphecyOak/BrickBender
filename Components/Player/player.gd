@@ -11,7 +11,7 @@ const jumpHeight: float = 30
 const crouchShrink: float = 30
 
 var currentSpeed: float = 0
-var acc: float = 900
+var acc: float = 1200
 var maxSpeed: float = 250
 var slowingFriction: float = 700
 var movingFriction: float = 250
@@ -48,7 +48,6 @@ func _process(delta):
 			modulate = Color(1,1,1) if modulate == Color(.5, .5, .5) else Color(.5, .5, .5)
 	if health == 0: PlayerManager.resetPlayers(self)
 	if dead: return
-	if !punching and !kicking and !jumping: $Standing/AnimationPlayer.play("idle" if !crouching else "crouch")
 	if playerControlled: checkForInputs(delta)
 	else: determineAIBehavior(delta)
 	get_parent().updateUI()
@@ -101,9 +100,12 @@ func move(delta: float, strength: float):
 	var appliedForce: float = 0.0 if jumping else acc * strength * delta
 	currentSpeed = clampf(currentSpeed + appliedForce, -maxSpeed, maxSpeed)
 	var frictionForce: float = clampf((movingFriction if abs(strength) > .4 else slowingFriction) * delta, 0, abs(currentSpeed))
-	if crouching: frictionForce *= 1.5
+	if crouching or punching or kicking: frictionForce *= 1.5
 	currentSpeed = currentSpeed - frictionForce * sign(currentSpeed)
-	if abs(currentSpeed) > 0 and abs(strength) > .4: $Standing/AnimationPlayer.play("move")
+	if !punching and !kicking and !jumping:
+		if crouching: $Standing/AnimationPlayer.play("crouch")
+		elif abs(currentSpeed) > 0 and abs(strength) > .4: $Standing/AnimationPlayer.play("move")
+		else: $Standing/AnimationPlayer.play("idle")
 	position.x = clampf(position.x + currentSpeed * shotDirection * delta, get_parent().edgeBound, get_parent().centerBound)
 	#if deviceNum == 0: print(sign(currentSpeed), " Speed: ", round(currentSpeed), " Input: ", round(strength), " Friction: ", round(frictionForce), " Applied: ", appliedForce)
 
