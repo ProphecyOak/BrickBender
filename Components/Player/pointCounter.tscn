@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=3 uid="uid://d4e00855lbixy"]
+
+[ext_resource type="FontFile" uid="uid://bdhxt1c22fhf2" path="res://Assets/Robot Crush.ttf" id="1_kpxq6"]
+[ext_resource type="Script" path="res://Components/Player/pointCounter.gd" id="2_3cwqq"]
+[ext_resource type="Texture2D" uid="uid://bhq1tutgxytpc" path="res://Assets/minusFive.png" id="2_b87vi"]
+[ext_resource type="Texture2D" uid="uid://yfr2c7bmfade" path="res://Assets/plusTen.png" id="3_mhcoi"]
+
+[sub_resource type="Animation" id="Animation_716t5"]
+resource_name = "points"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Icons:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_myrcy"]
+_data = {
+"points": SubResource("Animation_716t5")
+}
+
+[node name="Label" type="Label"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = -63.0
+offset_right = 390.0
+offset_bottom = -25.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_kpxq6")
+theme_override_font_sizes/font_size = 45
+text = "200000000000000"
+vertical_alignment = 1
+script = ExtResource("2_3cwqq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_myrcy")
+}
+
+[node name="Icons" type="Node2D" parent="."]
+
+[node name="MinusFive" type="Sprite2D" parent="Icons"]
+visible = false
+position = Vector2(151, -57)
+texture = ExtResource("2_b87vi")
+
+[node name="PlusTen" type="Sprite2D" parent="Icons"]
+visible = false
+position = Vector2(183, -65)
+texture = ExtResource("3_mhcoi")
