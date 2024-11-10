@@ -33,6 +33,7 @@ func resetPlayers(loser: PlayerCharacter):
 		x.dead = true
 		x.get_node("../Spawner").deactivate()
 		x.visible = false
+	pointCountdown.updateHighScore()
 	await get_tree().create_timer(winScreenTime).timeout
 	for x in players:
 		if gameMode == 0: x.health = 3

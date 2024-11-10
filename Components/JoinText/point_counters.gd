@@ -1,18 +1,30 @@
 extends Control
 
 var flashing: bool = false
+var highScore: int = 0
 
 func _ready():
 	visible = PlayerManager.gameMode == 1
 	PlayerManager.pointCountdown = self
+	updateHighScore()
 	startTimer(PlayerManager.gameLength)
 
 func _process(_delta):
 	$Timer.text = timeToDisplay()
 
 func startTimer(time: float):
+	$Label/Icons.visible = true
+	$Label2/Icons.visible = true
 	$Countdown.start(time)
 	flashing = false
+	$Label.oldPoints = 0
+	$Label2.oldPoints = 0
+
+func updateHighScore():
+	highScore = max(highScore, $Label.oldPoints, $Label2.oldPoints)
+	$Highscore.text = "Highscore: " + str(highScore)
+	$Label/Icons.visible = false
+	$Label2/Icons.visible = false
 
 func timeToDisplay():
 	if !flashing and $Countdown.time_left < 10:

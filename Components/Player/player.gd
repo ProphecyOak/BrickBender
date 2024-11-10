@@ -52,7 +52,7 @@ func toggleJoined():
 	print("Player is " + ("not " if not playerControlled else "") + "in control")
 	
 func checkForInputs(delta: float):
-	crouch(!jumping and MultiplayerInput.get_action_raw_strength(deviceNum, "Crouch") > .4)
+	crouch(!jumping and !punching and !kicking and MultiplayerInput.get_action_raw_strength(deviceNum, "Crouch") > .4)
 	if MultiplayerInput.get_action_raw_strength(deviceNum, "Jump") > .7: jump()
 	if !crouching and !jumping and !punching and !kicking:
 		if MultiplayerInput.is_action_just_pressed(deviceNum, "Punch"): punch()
