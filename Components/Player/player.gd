@@ -4,20 +4,28 @@ extends Node2D
 class_name PlayerCharacter
 
 @onready var deviceNum: int = get_parent().deviceNum
-var speed: float = 300
-var playerControlled: bool = false
 @onready var shotDirection = get_parent().scale.x
+var playerControlled: bool = false
+
+const jumpHeight: float = 30
+const crouchShrink: float = 30
+
+var currentSpeed: float = 0
+var acc: float = 900
+var maxSpeed: float = 300
+var friction: float = 800
+var momentumBoost: float = 100
+
 var punching: bool = false
 var kicking: bool = false
-
 var crouching: bool = false
 var jumping: bool = false
-var jumpHeight: float = 75
+
+@onready var birthTime = Time.get_unix_time_from_system()
 var health: int = 3
 var dead: bool = false
 var invulnerable: bool = false
 var FlashDuration: float = 1.5
-@onready var birthTime = Time.get_unix_time_from_system()
 
 var lastAggression: float = 0
 var startedMoving: float = 0
@@ -26,7 +34,7 @@ var moveDirection: float = 1
 func _ready():
 	PlayerManager.players[deviceNum] = self
 	print("Player: " + str(deviceNum) + " has shotDirection: " + str(shotDirection))
-	speed *= shotDirection
+	momentumBoost *= -shotDirection
 
 func _process(delta):
 	#print(deviceNum, health)
@@ -43,7 +51,7 @@ func _process(delta):
 	if playerControlled: checkForInputs(delta)
 	else: determineAIBehavior(delta)
 	get_parent().updateUI()
-	if deviceNum == 1: print("Punching: " + str(punching) + " Kicking: " + str(kicking) + " Jumping: " + str(jumping) + " Crouching: " + str(crouching))
+	#if deviceNum == 1: print("Punching: " + str(punching) + " Kicking: " + str(kicking) + " Jumping: " + str(jumping) + " Crouching: " + str(crouching))
 
 func toggleJoined():
 	playerControlled = !playerControlled
@@ -89,8 +97,12 @@ func anim_done(anim_name: String):
 	if anim_name == "punch": punchDone()
 
 func move(delta: float, strength: float):
-	if abs(strength) >= 0.4:
-		self.position.x = clamp(self.position.x + strength * speed * delta, get_parent().edgeBound, get_parent().centerBound) as float
+	var appliedForce: float = 0 if jumping else acc * strength * delta
+	var frictionForce: float = 0 if !crouching and !jumping else clampf(friction * sign(currentSpeed) * delta, min(currentSpeed, 0), max(currentSpeed, 0))
+	if crouching: frictionForce *= 1.5
+	currentSpeed = clampf(currentSpeed + appliedForce - frictionForce, -maxSpeed, maxSpeed)
+	self.position.x = clamp(self.position.x + currentSpeed * shotDirection * delta, get_parent().edgeBound, get_parent().centerBound) as float
+	#if deviceNum == 0: print(sign(currentSpeed), " Speed: ", round(currentSpeed), " Input: ", round(strength), " Friction: ", round(frictionForce), " Applied: ", appliedForce)
 
 func jump():
 	if jumping: return
@@ -98,10 +110,10 @@ func jump():
 	$Standing/AnimationPlayer.play("jump")
 	$StandingHurtBox.set_monitorable(false)
 	$JumpingHurtBox.set_monitorable(true)
-	$Standing.position.y -= 30
+	$Standing.position.y -= jumpHeight
 	
 func jumpDone():
-	$Standing.position.y += 30
+	$Standing.position.y += jumpHeight
 	$StandingHurtBox.set_monitorable(true)
 	$JumpingHurtBox.set_monitorable(false)
 	$Standing/AnimationPlayer.play("idle")
@@ -110,7 +122,7 @@ func jumpDone():
 
 func crouch(crouchingOn: bool):
 	crouching = crouchingOn
-	$Standing.position.y = 0 if !crouching else 30
+	$Standing.position.y = 0 if !crouching else crouchShrink
 	$StandingHurtBox.set_monitoring(!crouching)
 	$CrouchingHurtBox.set_monitoring(crouching)
 
@@ -118,6 +130,7 @@ func punch():
 	if punching == true: return
 	$Standing/AnimationPlayer.play("punch")
 	punching = true
+	currentSpeed += momentumBoost
 	lastAggression = Time.get_unix_time_from_system()
 	#print("Punch")
 	$FistHitBox.position.x += 10
@@ -134,6 +147,7 @@ func kick():
 	if kicking == true: return
 	$Standing/AnimationPlayer.play("kick")
 	kicking = true
+	currentSpeed += momentumBoost * 1.5
 	lastAggression = Time.get_unix_time_from_system()
 	#print("Kick")
 	$FootHitBox.position.x += 10
@@ -148,7 +162,9 @@ func kickDone():
 
 func hitByBrick(area):
 	if invulnerable or dead or Time.get_unix_time_from_system() - birthTime < 1: return
+	get_node("../../Freeze").pause()
 	invulnerable = true
+	currentSpeed += momentumBoost * 1.5
 	FlashDuration = 1.5
 	health -= 1
 	(area.get_parent() as Brick).queue_free()

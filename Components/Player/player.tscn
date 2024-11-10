@@ -110,13 +110,13 @@ height = 198.552
 size = Vector2(263.541, 322.559)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3osva"]
-size = Vector2(415.04, 247.191)
+size = Vector2(418.357, 317.439)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_82b3t"]
 size = Vector2(75, 100.375)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_26uur"]
-size = Vector2(110, 70.2797)
+size = Vector2(110, 82)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ejjl"]
 size = Vector2(132, 78)
@@ -130,7 +130,7 @@ scale = Vector2(0.166817, 0.170207)
 texture = ExtResource("2_iju3m")
 hframes = 3
 vframes = 2
-frame = 1
+frame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Standing"]
 libraries = {
@@ -185,7 +185,7 @@ collision_layer = 4
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FootHitBox"]
-position = Vector2(235.29, 51.9158)
+position = Vector2(233.631, 16.7919)
 scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_3osva")
 
@@ -208,7 +208,7 @@ collision_layer = 4
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AI/InFrontFoot"]
-position = Vector2(127, 57.1398)
+position = Vector2(127, 51.2797)
 shape = SubResource("RectangleShape2D_26uur")
 
 [node name="AboveHead" type="Area2D" parent="AI"]
