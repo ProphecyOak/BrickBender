@@ -29,3 +29,7 @@ func resetPlayers(loser: PlayerCharacter):
 		x.get_node("../Spawner").activate()
 		x.birthTime = Time.get_unix_time_from_system()
 		x.get_parent().updateUI()
+		x.punching = false
+		x.kicking = false
+		x.jumping = false
+		x.crouching = false
