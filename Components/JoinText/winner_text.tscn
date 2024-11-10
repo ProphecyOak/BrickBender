@@ -43,7 +43,7 @@ stream = ExtResource("3_vhg8f")
 
 [node name="WinnerSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_u6f5p")
-pitch_scale = 0.86
+pitch_scale = 1.29
 
 [connection signal="visibility_changed" from="TextureRect" to="." method="_on_texture_rect_visibility_changed"]
 [connection signal="visibility_changed" from="TextureRect2" to="." method="_on_texture_rect_2_visibility_changed"]

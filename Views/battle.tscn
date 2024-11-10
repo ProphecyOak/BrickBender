@@ -1,8 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://ey4l83s7fmnc"]
+[gd_scene load_steps=18 format=3 uid="uid://ey4l83s7fmnc"]
 
 [ext_resource type="Texture2D" uid="uid://bhxqa85a2y33k" path="res://Assets/gradient.jpeg" id="1_pb0kb"]
 [ext_resource type="PackedScene" uid="uid://vp6gfhvel8tj" path="res://Components/Player Container/player_container.tscn" id="2_0i2ab"]
 [ext_resource type="Texture2D" uid="uid://bmsowt60w1ulx" path="res://Assets/library5.svg" id="2_65shq"]
+[ext_resource type="Script" path="res://Views/Clouds.gd" id="2_luddd"]
+[ext_resource type="Texture2D" uid="uid://bde0j1l70igqk" path="res://Assets/clouds.png" id="3_d5l05"]
 [ext_resource type="Texture2D" uid="uid://b5i7h40u3hdl3" path="res://Assets/lift.png" id="3_j3g3c"]
 [ext_resource type="Texture2D" uid="uid://qe3fxhcvdb6f" path="res://Assets/draftPlatform.svg" id="3_xe6ws"]
 [ext_resource type="PackedScene" uid="uid://blkuttht8yxik" path="res://Components/JoinText/winner_text.tscn" id="6_nbldv"]
@@ -43,104 +45,127 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Background" type="Control" parent="Map UI"]
+[node name="ParallaxBackground" type="ParallaxBackground" parent="Map UI"]
+
+[node name="Sky" type="Control" parent="Map UI/ParallaxBackground"]
+layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Sky" type="Sprite2D" parent="Map UI/Background"]
+[node name="Sky" type="Sprite2D" parent="Map UI/ParallaxBackground/Sky"]
+z_index = -6
 position = Vector2(572, 355)
 scale = Vector2(0.475333, 0.487)
 texture = ExtResource("1_pb0kb")
 
-[node name="Sky2" type="Sprite2D" parent="Map UI/Background"]
+[node name="Sky2" type="Sprite2D" parent="Map UI/ParallaxBackground/Sky"]
+z_index = -2
 position = Vector2(572, 355)
 scale = Vector2(0.475333, 0.487)
 texture = ExtResource("1_pb0kb")
 
-[node name="draftLibrary" type="Sprite2D" parent="Map UI/Background"]
+[node name="Clouds" type="ParallaxLayer" parent="Map UI/ParallaxBackground"]
+position = Vector2(-1191, 20)
+scale = Vector2(2.04, 2.36)
+motion_mirroring = Vector2(900, 2.08165e-12)
+script = ExtResource("2_luddd")
+CLOUD_SPEED = 15
+
+[node name="CloudsPNG" type="Sprite2D" parent="Map UI/ParallaxBackground/Clouds"]
+position = Vector2(289.216, 29.661)
+scale = Vector2(2.62745, 1.69492)
+texture = ExtResource("3_d5l05")
+
+[node name="Background" type="Control" parent="Map UI/ParallaxBackground"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="draftLibrary" type="Sprite2D" parent="Map UI/ParallaxBackground/Background"]
 modulate = Color(0.803922, 1, 1, 1)
 position = Vector2(216, 519)
 scale = Vector2(0.60125, 0.573742)
 texture = ExtResource("2_65shq")
 
-[node name="draftLibrary4" type="Sprite2D" parent="Map UI/Background"]
+[node name="draftLibrary4" type="Sprite2D" parent="Map UI/ParallaxBackground/Background"]
 modulate = Color(0.803922, 1, 1, 1)
 position = Vector2(217, 251)
 scale = Vector2(0.60125, 0.573742)
 texture = ExtResource("2_65shq")
 
-[node name="draftLibrary7" type="Sprite2D" parent="Map UI/Background"]
+[node name="draftLibrary7" type="Sprite2D" parent="Map UI/ParallaxBackground/Background"]
 modulate = Color(0.803922, 1, 1, 1)
 position = Vector2(217, -16)
 scale = Vector2(0.60125, 0.573742)
 texture = ExtResource("2_65shq")
 
-[node name="draftLibrary8" type="Sprite2D" parent="Map UI/Background"]
+[node name="draftLibrary8" type="Sprite2D" parent="Map UI/ParallaxBackground/Background"]
 modulate = Color(0.803922, 1, 1, 1)
 position = Vector2(575, -16)
 scale = Vector2(0.60125, 0.573742)
 texture = ExtResource("2_65shq")
 
-[node name="draftLibrary9" type="Sprite2D" parent="Map UI/Background"]
+[node name="draftLibrary9" type="Sprite2D" parent="Map UI/ParallaxBackground/Background"]
 modulate = Color(0.803922, 1, 1, 1)
 position = Vector2(935, -16)
 scale = Vector2(0.60125, 0.573742)
 texture = ExtResource("2_65shq")
 
-[node name="draftLibrary5" type="Sprite2D" parent="Map UI/Background"]
+[node name="draftLibrary5" type="Sprite2D" parent="Map UI/ParallaxBackground/Background"]
 modulate = Color(0.803922, 1, 1, 1)
 position = Vector2(575, 251)
 scale = Vector2(0.60125, 0.573742)
 texture = ExtResource("2_65shq")
 
-[node name="draftLibrary6" type="Sprite2D" parent="Map UI/Background"]
+[node name="draftLibrary6" type="Sprite2D" parent="Map UI/ParallaxBackground/Background"]
 modulate = Color(0.803922, 1, 1, 1)
 position = Vector2(935, 251)
 scale = Vector2(0.60125, 0.573742)
 texture = ExtResource("2_65shq")
 
-[node name="draftLibrary2" type="Sprite2D" parent="Map UI/Background"]
+[node name="draftLibrary2" type="Sprite2D" parent="Map UI/ParallaxBackground/Background"]
 modulate = Color(0.803922, 1, 1, 1)
 position = Vector2(575, 519)
 scale = Vector2(0.60125, 0.573742)
 texture = ExtResource("2_65shq")
 
-[node name="draftLibrary3" type="Sprite2D" parent="Map UI/Background"]
+[node name="draftLibrary3" type="Sprite2D" parent="Map UI/ParallaxBackground/Background"]
 modulate = Color(0.803922, 1, 1, 1)
 position = Vector2(935, 519)
 scale = Vector2(0.60125, 0.573742)
 texture = ExtResource("2_65shq")
 
-[node name="Platform1" type="Sprite2D" parent="Map UI/Background"]
+[node name="Platform1" type="Sprite2D" parent="Map UI/ParallaxBackground/Background"]
 position = Vector2(259, 350)
 scale = Vector2(0.290365, 0.266498)
 texture = ExtResource("3_j3g3c")
 
-[node name="pole" type="Sprite2D" parent="Map UI/Background/Platform1"]
+[node name="pole" type="Sprite2D" parent="Map UI/ParallaxBackground/Background/Platform1"]
 position = Vector2(-540.699, -3362.12)
 rotation = 1.5708
 scale = Vector2(12.1237, 0.283534)
 texture = ExtResource("3_xe6ws")
 
-[node name="pole2" type="Sprite2D" parent="Map UI/Background/Platform1"]
+[node name="pole2" type="Sprite2D" parent="Map UI/ParallaxBackground/Background/Platform1"]
 position = Vector2(771.444, -3362.12)
 rotation = 1.5708
 scale = Vector2(12.1237, 0.283534)
 texture = ExtResource("3_xe6ws")
 
-[node name="Platform2" type="Sprite2D" parent="Map UI/Background"]
+[node name="Platform2" type="Sprite2D" parent="Map UI/ParallaxBackground/Background"]
 position = Vector2(888, 354)
 scale = Vector2(0.290365, 0.266498)
 texture = ExtResource("3_j3g3c")
 
-[node name="pole" type="Sprite2D" parent="Map UI/Background/Platform2"]
+[node name="pole" type="Sprite2D" parent="Map UI/ParallaxBackground/Background/Platform2"]
 position = Vector2(-540.699, -3362.12)
 rotation = 1.5708
 scale = Vector2(12.1237, 0.283534)
 texture = ExtResource("3_xe6ws")
 
-[node name="pole2" type="Sprite2D" parent="Map UI/Background/Platform2"]
+[node name="pole2" type="Sprite2D" parent="Map UI/ParallaxBackground/Background/Platform2"]
 position = Vector2(771.444, -3362.12)
 rotation = 1.5708
 scale = Vector2(12.1237, 0.283534)

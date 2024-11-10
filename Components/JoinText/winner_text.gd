@@ -23,7 +23,7 @@ func _on_texture_rect_visibility_changed():
 	if makeSound:
 		print("Do stuff on the left!")
 		$WinnerSound.play()
-		$WinnerTrumpet.play()
+		#$WinnerTrumpet.play()
 		makeSound = false
 	else:
 		makeSound = true
@@ -33,7 +33,7 @@ func _on_texture_rect_2_visibility_changed():
 	if makeSound:
 		print("Do stuff on the right!")
 		$WinnerSound.play()
-		$WinnerTrumpet.play()
+		#$WinnerTrumpet.play()
 		makeSound = false
 	else:
 		makeSound = true
