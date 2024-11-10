@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://c4oua7bf7qqwd"]
 
-[ext_resource type="Texture2D" uid="uid://b8qp7ad3rkk4t" path="res://Assets/controllerV2.png" id="1_5qw1j"]
+[ext_resource type="Texture2D" uid="uid://dko0o4d8f2a5" path="res://Assets/controllerV2.png" id="1_5qw1j"]
 [ext_resource type="Script" path="res://Components/ControlsPanel/controls.gd" id="1_iwi8a"]
-[ext_resource type="FontFile" uid="uid://dv0bfimaenudp" path="res://Assets/pixeboy-font copy/Pixeboy-z8XGD.ttf" id="2_7fc54"]
+[ext_resource type="FontFile" uid="uid://b3byl8pc7wmqn" path="res://Assets/pixeboy-font copy/Pixeboy-z8XGD.ttf" id="2_7fc54"]
 
 [sub_resource type="Animation" id="Animation_ko6kl"]
 resource_name = "fade"

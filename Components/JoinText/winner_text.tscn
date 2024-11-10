@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://blkuttht8yxik"]
+[gd_scene load_steps=5 format=3 uid="uid://blkuttht8yxik"]
 
 [ext_resource type="Script" path="res://Components/JoinText/winner_text.gd" id="1_sukb3"]
 [ext_resource type="Texture2D" uid="uid://nbebeyww3w2r" path="res://Assets/youWin.png" id="2_vc5l1"]
+[ext_resource type="AudioStream" uid="uid://cjhdd0vla3uqk" path="res://Assets/Retro Games Style Winning Trumpet Sound Effect.mp3" id="3_vhg8f"]
+[ext_resource type="AudioStream" uid="uid://bglvbh6eg8lsv" path="res://Assets/winner-101soundboards.mp3" id="4_u6f5p"]
 
 [node name="Winner Text" type="Control"]
 layout_mode = 3
@@ -17,10 +19,10 @@ script = ExtResource("1_sukb3")
 [node name="TextureRect" type="TextureRect" parent="."]
 visible = false
 layout_mode = 2
-offset_left = 200.0
-offset_top = 200.0
-offset_right = 2120.0
-offset_bottom = 1280.0
+offset_left = 103.0
+offset_top = 160.0
+offset_right = 3733.0
+offset_bottom = 1760.0
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_vc5l1")
 expand_mode = 3
@@ -28,10 +30,20 @@ expand_mode = 3
 [node name="TextureRect2" type="TextureRect" parent="."]
 visible = false
 layout_mode = 2
-offset_left = 758.0
-offset_top = 200.0
-offset_right = 2678.0
-offset_bottom = 1280.0
+offset_left = 672.0
+offset_top = 152.0
+offset_right = 4443.0
+offset_bottom = 1802.0
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_vc5l1")
 expand_mode = 3
+
+[node name="WinnerTrumpet" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_vhg8f")
+
+[node name="WinnerSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_u6f5p")
+pitch_scale = 0.86
+
+[connection signal="visibility_changed" from="TextureRect" to="." method="_on_texture_rect_visibility_changed"]
+[connection signal="visibility_changed" from="TextureRect2" to="." method="_on_texture_rect_2_visibility_changed"]

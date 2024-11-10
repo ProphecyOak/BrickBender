@@ -37,6 +37,9 @@ func breakApart(hitByPlayer: bool = true):
 	$Hurtbox.set_deferred("monitorable", false)
 	$Hitbox.set_deferred("monitorable", false)
 	$AnimationPlayer.play("explode")
+	var random_pitch = randf_range(0.7, 1.2)
+	$BreakSound.pitch_scale = random_pitch
+	$BreakSound.play()
 	rotation_speed = 0
 	if hitByPlayer: horizontalSpeed *= -.1
 	fallSpeed = 75

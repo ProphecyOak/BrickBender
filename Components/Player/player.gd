@@ -40,8 +40,10 @@ func _ready():
 	momentumBoost *= -shotDirection
 
 func _process(delta):
+	
 	#print(deviceNum, health)
 	if invulnerable:
+		#$Hurt.play()
 		FlashDuration -= delta
 		if FlashDuration <= 0:
 			modulate = Color(1, 1, 1)
@@ -136,6 +138,11 @@ func crouch(crouchingOn: bool):
 func punch():
 	if punching == true: return
 	$AnimationPlayer.play("punch")
+
+	var random_pitch = 1.0 + (randf() * 0.4 - 0.1)  
+	$PunchSound.pitch_scale = random_pitch
+	$PunchSound.play()
+	
 	punching = true
 	currentSpeed += momentumBoost
 	lastAggression = Time.get_unix_time_from_system()
@@ -153,6 +160,9 @@ func punchDone():
 func kick():
 	if kicking == true: return
 	$AnimationPlayer.play("kick")
+	var random_pitch = randf_range(0.6, 0.9)
+	$KickSound.pitch_scale = random_pitch
+	$KickSound.play()
 	kicking = true
 	currentSpeed += momentumBoost * 1.5
 	lastAggression = Time.get_unix_time_from_system()

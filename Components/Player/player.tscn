@@ -1,7 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://cciiqc7rl4val"]
+[gd_scene load_steps=21 format=3 uid="uid://cciiqc7rl4val"]
 
 [ext_resource type="Script" path="res://Components/Player/player.gd" id="1_813ld"]
-[ext_resource type="Texture2D" uid="uid://5yx8vpg1e6wl" path="res://Assets/Assets.png" id="2_iju3m"]
+[ext_resource type="Texture2D" uid="uid://6je6t4gpvbp7" path="res://Assets/Assets.png" id="2_iju3m"]
+[ext_resource type="AudioStream" uid="uid://brerub4qjpf66" path="res://Assets/zangief-grunt-101soundboards.mp3" id="3_k8cqf"]
+[ext_resource type="AudioStream" uid="uid://di1i1mkje11mu" path="res://Assets/9-101soundboards.mp3" id="4_0xugj"]
+[ext_resource type="AudioStream" uid="uid://c3rbhjhh3s400" path="res://Assets/5-101soundboards.mp3" id="5_ukdtc"]
 
 [sub_resource type="Animation" id="Animation_v7kjl"]
 resource_name = "crouch"
@@ -247,6 +250,21 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AI/AboveHead"]
 position = Vector2(0, -185)
 shape = SubResource("RectangleShape2D_1ejjl")
+
+[node name="PunchSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_k8cqf")
+volume_db = -10.0
+pitch_scale = 1.43
+
+[node name="KickSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_0xugj")
+volume_db = -10.0
+pitch_scale = 0.82
+
+[node name="Hurt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_ukdtc")
+volume_db = -5.0
+pitch_scale = 0.88
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="anim_done"]
 [connection signal="area_entered" from="StandingHurtBox" to="." method="hitByBrick"]

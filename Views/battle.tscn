@@ -1,16 +1,18 @@
-[gd_scene load_steps=14 format=3 uid="uid://ey4l83s7fmnc"]
+[gd_scene load_steps=16 format=3 uid="uid://ey4l83s7fmnc"]
 
-[ext_resource type="Texture2D" uid="uid://ca5cpr03wtkvm" path="res://Assets/gradient.jpeg" id="1_pb0kb"]
+[ext_resource type="Texture2D" uid="uid://bhxqa85a2y33k" path="res://Assets/gradient.jpeg" id="1_pb0kb"]
 [ext_resource type="PackedScene" uid="uid://vp6gfhvel8tj" path="res://Components/Player Container/player_container.tscn" id="2_0i2ab"]
-[ext_resource type="Texture2D" uid="uid://bkhacrab76r83" path="res://Assets/draftLibrary4.svg" id="2_cgki4"]
-[ext_resource type="Texture2D" uid="uid://cvouvx5sq1kfo" path="res://Assets/lift.png" id="3_j3g3c"]
-[ext_resource type="Texture2D" uid="uid://xv05fnpvusxa" path="res://Assets/draftPlatform.svg" id="3_xe6ws"]
-[ext_resource type="PackedScene" uid="uid://i4xs0dgal5we" path="res://Components/JoinText/winner_text.tscn" id="6_nbldv"]
+[ext_resource type="Texture2D" uid="uid://bmsowt60w1ulx" path="res://Assets/library5.svg" id="2_65shq"]
+[ext_resource type="Texture2D" uid="uid://b5i7h40u3hdl3" path="res://Assets/lift.png" id="3_j3g3c"]
+[ext_resource type="Texture2D" uid="uid://qe3fxhcvdb6f" path="res://Assets/draftPlatform.svg" id="3_xe6ws"]
+[ext_resource type="PackedScene" uid="uid://blkuttht8yxik" path="res://Components/JoinText/winner_text.tscn" id="6_nbldv"]
 [ext_resource type="PackedScene" uid="uid://bh8n6gkxq1adb" path="res://Components/Coin/coin_join_text.tscn" id="8_5fj1b"]
 [ext_resource type="Script" path="res://Components/FreezeControl/freeze_control.gd" id="8_f4nd3"]
-[ext_resource type="FontFile" uid="uid://bdhxt1c22fhf2" path="res://Assets/Robot Crush.ttf" id="9_ut2uh"]
+[ext_resource type="FontFile" uid="uid://cbtuwtba3nnrd" path="res://Assets/Robot Crush.ttf" id="9_ut2uh"]
 [ext_resource type="Script" path="res://Components/JoinText/point_counters.gd" id="9_xr0cm"]
 [ext_resource type="PackedScene" uid="uid://c4oua7bf7qqwd" path="res://Components/ControlsPanel/controls.tscn" id="11_ugsj7"]
+[ext_resource type="AudioStream" uid="uid://ba8225h256ghf" path="res://Assets/Street Fighter II OST Ken Theme.mp3" id="12_d5llo"]
+[ext_resource type="Script" path="res://Views/BackgroundPlaylist.gd" id="13_xcrng"]
 
 [sub_resource type="Animation" id="Animation_xf0w1"]
 resource_name = "Flashing"
@@ -60,55 +62,55 @@ texture = ExtResource("1_pb0kb")
 modulate = Color(0.803922, 1, 1, 1)
 position = Vector2(216, 519)
 scale = Vector2(0.60125, 0.573742)
-texture = ExtResource("2_cgki4")
+texture = ExtResource("2_65shq")
 
 [node name="draftLibrary4" type="Sprite2D" parent="Map UI/Background"]
 modulate = Color(0.803922, 1, 1, 1)
 position = Vector2(217, 251)
 scale = Vector2(0.60125, 0.573742)
-texture = ExtResource("2_cgki4")
+texture = ExtResource("2_65shq")
 
 [node name="draftLibrary7" type="Sprite2D" parent="Map UI/Background"]
 modulate = Color(0.803922, 1, 1, 1)
 position = Vector2(217, -16)
 scale = Vector2(0.60125, 0.573742)
-texture = ExtResource("2_cgki4")
+texture = ExtResource("2_65shq")
 
 [node name="draftLibrary8" type="Sprite2D" parent="Map UI/Background"]
 modulate = Color(0.803922, 1, 1, 1)
 position = Vector2(575, -16)
 scale = Vector2(0.60125, 0.573742)
-texture = ExtResource("2_cgki4")
+texture = ExtResource("2_65shq")
 
 [node name="draftLibrary9" type="Sprite2D" parent="Map UI/Background"]
 modulate = Color(0.803922, 1, 1, 1)
 position = Vector2(935, -16)
 scale = Vector2(0.60125, 0.573742)
-texture = ExtResource("2_cgki4")
+texture = ExtResource("2_65shq")
 
 [node name="draftLibrary5" type="Sprite2D" parent="Map UI/Background"]
 modulate = Color(0.803922, 1, 1, 1)
 position = Vector2(575, 251)
 scale = Vector2(0.60125, 0.573742)
-texture = ExtResource("2_cgki4")
+texture = ExtResource("2_65shq")
 
 [node name="draftLibrary6" type="Sprite2D" parent="Map UI/Background"]
 modulate = Color(0.803922, 1, 1, 1)
 position = Vector2(935, 251)
 scale = Vector2(0.60125, 0.573742)
-texture = ExtResource("2_cgki4")
+texture = ExtResource("2_65shq")
 
 [node name="draftLibrary2" type="Sprite2D" parent="Map UI/Background"]
 modulate = Color(0.803922, 1, 1, 1)
 position = Vector2(575, 519)
 scale = Vector2(0.60125, 0.573742)
-texture = ExtResource("2_cgki4")
+texture = ExtResource("2_65shq")
 
 [node name="draftLibrary3" type="Sprite2D" parent="Map UI/Background"]
 modulate = Color(0.803922, 1, 1, 1)
 position = Vector2(935, 519)
 scale = Vector2(0.60125, 0.573742)
-texture = ExtResource("2_cgki4")
+texture = ExtResource("2_65shq")
 
 [node name="Platform1" type="Sprite2D" parent="Map UI/Background"]
 position = Vector2(259, 350)
@@ -153,6 +155,7 @@ offset_bottom = 40.0
 pointCounter = NodePath("../PointCounters/Label")
 
 [node name="Player Container2" parent="." node_paths=PackedStringArray("pointCounter") instance=ExtResource("2_0i2ab")]
+modulate = Color(0.658824, 0.792157, 0.992157, 1)
 position = Vector2(1150, 0)
 scale = Vector2(-1, 1)
 deviceNum = 1
@@ -239,5 +242,10 @@ script = ExtResource("8_f4nd3")
 [node name="Controls" parent="." instance=ExtResource("11_ugsj7")]
 position = Vector2(574, 404)
 scale = Vector2(2, 2)
+
+[node name="BackgroundPlaylist" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_d5llo")
+pitch_scale = 0.87
+script = ExtResource("13_xcrng")
 
 [connection signal="timeout" from="PointCounters/Countdown" to="PointCounters" method="gameOver"]

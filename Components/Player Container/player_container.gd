@@ -11,3 +11,5 @@ func _ready():
 func updateUI():
 	if PlayerManager.gameMode == 0: $HealthBar.updateHearts($Player.health)
 	elif PlayerManager.gameMode == 1: pointCounter.text = str($Player.points)
+
+	
