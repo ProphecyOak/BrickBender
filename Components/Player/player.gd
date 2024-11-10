@@ -6,9 +6,11 @@ class_name PlayerCharacter
 @onready var deviceNum: int = get_parent().deviceNum
 @onready var shotDirection = get_parent().scale.x
 var playerControlled: bool = false
+var points = 0
 
-const jumpHeight: float = 30
+const jumpHeight: float = 75
 const crouchShrink: float = 30
+@onready var defaultY = position.y
 
 var currentSpeed: float = 0
 var acc: float = 1200
@@ -34,7 +36,7 @@ var moveDirection: float = 1
 
 func _ready():
 	PlayerManager.players[deviceNum] = self
-	print("Player: " + str(deviceNum) + " has shotDirection: " + str(shotDirection))
+	#print("Player: " + str(deviceNum) + " has shotDirection: " + str(shotDirection))
 	momentumBoost *= -shotDirection
 
 func _process(delta):
@@ -103,37 +105,37 @@ func move(delta: float, strength: float):
 	if crouching or punching or kicking: frictionForce *= 1.5
 	currentSpeed = currentSpeed - frictionForce * sign(currentSpeed)
 	if !punching and !kicking and !jumping:
-		if crouching: $Standing/AnimationPlayer.play("crouch")
-		elif abs(currentSpeed) > 0 and abs(strength) > .4: $Standing/AnimationPlayer.play("move")
-		else: $Standing/AnimationPlayer.play("idle")
+		if crouching: $AnimationPlayer.play("crouch")
+		elif abs(currentSpeed) > 0 and abs(strength) > .4: $AnimationPlayer.play("move")
+		else: $AnimationPlayer.play("idle")
 	position.x = clampf(position.x + currentSpeed * shotDirection * delta, get_parent().edgeBound, get_parent().centerBound)
 	#if deviceNum == 0: print(sign(currentSpeed), " Speed: ", round(currentSpeed), " Input: ", round(strength), " Friction: ", round(frictionForce), " Applied: ", appliedForce)
 
 func jump():
 	if jumping: return
 	jumping = true
-	$Standing/AnimationPlayer.play("jump")
+	defaultY -= jumpHeight
+	$AnimationPlayer.play("jump")
 	$StandingHurtBox.set_monitorable(false)
 	$JumpingHurtBox.set_monitorable(true)
-	$Standing.position.y -= jumpHeight
 	
 func jumpDone():
-	$Standing.position.y += jumpHeight
+	defaultY += jumpHeight
 	$StandingHurtBox.set_monitorable(true)
 	$JumpingHurtBox.set_monitorable(false)
-	$Standing/AnimationPlayer.play("idle")
+	$AnimationPlayer.play("idle")
 	await get_tree().create_timer(.25).timeout
 	jumping = false
 
 func crouch(crouchingOn: bool):
 	crouching = crouchingOn
-	$Standing.position.y = 0.0 if !crouching else crouchShrink
+	position.y = defaultY if !crouching else defaultY + crouchShrink
 	$StandingHurtBox.set_monitoring(!crouching)
 	$CrouchingHurtBox.set_monitoring(crouching)
 
 func punch():
 	if punching == true: return
-	$Standing/AnimationPlayer.play("punch")
+	$AnimationPlayer.play("punch")
 	punching = true
 	currentSpeed += momentumBoost
 	lastAggression = Time.get_unix_time_from_system()
@@ -143,14 +145,14 @@ func punch():
 		(brickBox.get_parent() as Brick).shoot()
 	
 func punchDone():
-	$Standing/AnimationPlayer.play("idle")
+	$AnimationPlayer.play("idle")
 	await get_tree().create_timer(.25).timeout
 	$FistHitBox.position.x -= 10
 	punching = false
 
 func kick():
 	if kicking == true: return
-	$Standing/AnimationPlayer.play("kick")
+	$AnimationPlayer.play("kick")
 	kicking = true
 	currentSpeed += momentumBoost * 1.5
 	lastAggression = Time.get_unix_time_from_system()
@@ -160,7 +162,7 @@ func kick():
 		(brickBox.get_parent() as Brick).shoot()
 	
 func kickDone():
-	$Standing/AnimationPlayer.play("idle")
+	$AnimationPlayer.play("idle")
 	await get_tree().create_timer(.25).timeout
 	$FootHitBox.position.x -= 10
 	kicking = false
@@ -171,5 +173,9 @@ func hitByBrick(area):
 	invulnerable = true
 	currentSpeed += momentumBoost * 1.5
 	FlashDuration = 1.5
-	health -= 1
-	(area.get_parent() as Brick).breakApart()
+	var hitBrick: Brick = area.get_parent() as Brick
+	if PlayerManager.gameMode == 0: health -= 1
+	elif PlayerManager.gameMode == 1:
+		if hitBrick.horizontalSpeed == 0: points -= 5
+		else: PlayerManager.giveOther(deviceNum, 10)
+	hitBrick.breakApart()
