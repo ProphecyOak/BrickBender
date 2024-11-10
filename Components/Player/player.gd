@@ -27,6 +27,9 @@ func _ready():
 	speed *= shotDirection
 
 func _process(_delta):
+	if punching == false and kicking == false and crouching == false:
+		print("playing idle")
+		$Standing/AnimationPlayer.play("idle")
 	#print(deviceNum, health)
 	if health == 0: PlayerManager.resetPlayers(self)
 	if dead: return
@@ -39,10 +42,6 @@ func toggleJoined():
 	print("Player is " + ("not " if not playerControlled else "") + "in control")
 	
 func checkForInputs():
-
-	if punching == false and kicking == false and crouching == false:
-		print("playing idle")
-		$Standing/AnimationPlayer.play("idle")
 	crouch(MultiplayerInput.get_action_raw_strength(deviceNum, "Crouch") > .4)
 	if MultiplayerInput.get_action_raw_strength(deviceNum, "Jump") > .7: jump()
 	if !crouching and !jumping:
@@ -90,7 +89,7 @@ func jump():
 func crouch(crouchingOn: bool):
 	crouching = crouchingOn
 	#$Crouching.visible = crouching
-	$Standing/AnimationPlayer.play("crouch")
+	if crouching: $Standing/AnimationPlayer.play("crouch")
 	#$Standing.visible = !crouching
 	#$Foot.visible = !crouching and !jumping
 	$Standing/HurtBox.set_monitoring(!crouching)
