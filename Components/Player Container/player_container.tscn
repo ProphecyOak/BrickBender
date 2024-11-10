@@ -9,7 +9,7 @@
 script = ExtResource("1_tdm3w")
 
 [node name="Player" parent="." instance=ExtResource("1_126tm")]
-position = Vector2(44, 342)
+position = Vector2(44, 340)
 
 [node name="Spawner" parent="." instance=ExtResource("3_fh032")]
 spawnSpeed = 0.5
