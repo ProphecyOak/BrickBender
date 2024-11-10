@@ -2,7 +2,7 @@ extends Node2D
 
 var preloadedBrick = preload("res://Components/Brick/brick.tscn")
 
-@export var spawnSpeed: float = 1 
+@export var spawnSpeed: float = 2 
 
 var next_spawnTime: float = 1
 
