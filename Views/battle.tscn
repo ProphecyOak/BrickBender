@@ -2,8 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://ca5cpr03wtkvm" path="res://Assets/gradient.jpeg" id="1_pb0kb"]
 [ext_resource type="PackedScene" uid="uid://vp6gfhvel8tj" path="res://Components/Player Container/player_container.tscn" id="2_0i2ab"]
-[ext_resource type="Texture2D" uid="uid://bkhacrab76r83" path="res://Assets/draftLibrary4.svg" id="2_cgki4"]
-[ext_resource type="Texture2D" uid="uid://xv05fnpvusxa" path="res://Assets/draftPlatform.svg" id="3_xe6ws"]
+[ext_resource type="Texture2D" uid="uid://cii8ccvv2hhxv" path="res://Assets/draftLibrary4.svg" id="2_cgki4"]
+[ext_resource type="Texture2D" uid="uid://b5i7h40u3hdl3" path="res://Assets/lift.png" id="3_j3g3c"]
+[ext_resource type="Texture2D" uid="uid://qe3fxhcvdb6f" path="res://Assets/draftPlatform.svg" id="3_xe6ws"]
 [ext_resource type="PackedScene" uid="uid://c737pw181jej2" path="res://Components/JoinText/join_text.tscn" id="5_w3hnb"]
 [ext_resource type="PackedScene" uid="uid://i4xs0dgal5we" path="res://Components/JoinText/winner_text.tscn" id="6_nbldv"]
 [ext_resource type="Script" path="res://Components/JoinText/winner_text.gd" id="7_agibr"]
@@ -87,13 +88,37 @@ scale = Vector2(0.60125, 0.573742)
 texture = ExtResource("2_cgki4")
 
 [node name="Platform1" type="Sprite2D" parent="Map UI/Background"]
-position = Vector2(253, 323)
-scale = Vector2(0.791667, 0.851178)
+position = Vector2(259, 350)
+scale = Vector2(0.290365, 0.266498)
+texture = ExtResource("3_j3g3c")
+
+[node name="pole" type="Sprite2D" parent="Map UI/Background/Platform1"]
+position = Vector2(-540.699, -3362.12)
+rotation = 1.5708
+scale = Vector2(12.1237, 0.283534)
+texture = ExtResource("3_xe6ws")
+
+[node name="pole2" type="Sprite2D" parent="Map UI/Background/Platform1"]
+position = Vector2(771.444, -3362.12)
+rotation = 1.5708
+scale = Vector2(12.1237, 0.283534)
 texture = ExtResource("3_xe6ws")
 
 [node name="Platform2" type="Sprite2D" parent="Map UI/Background"]
-position = Vector2(902, 322)
-scale = Vector2(0.791667, 0.851178)
+position = Vector2(888, 354)
+scale = Vector2(0.290365, 0.266498)
+texture = ExtResource("3_j3g3c")
+
+[node name="pole" type="Sprite2D" parent="Map UI/Background/Platform2"]
+position = Vector2(-540.699, -3362.12)
+rotation = 1.5708
+scale = Vector2(12.1237, 0.283534)
+texture = ExtResource("3_xe6ws")
+
+[node name="pole2" type="Sprite2D" parent="Map UI/Background/Platform2"]
+position = Vector2(771.444, -3362.12)
+rotation = 1.5708
+scale = Vector2(12.1237, 0.283534)
 texture = ExtResource("3_xe6ws")
 
 [node name="Platforms" type="Control" parent="Map UI"]
