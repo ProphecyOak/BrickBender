@@ -40,7 +40,7 @@ func toggleJoined():
 	
 func checkForInputs():
 
-	if punching == false and kicking == false and crouching == false:
+	if punching == false and kicking == false and crouching == false and jumping == false:
 		print("playing idle")
 		$Standing/AnimationPlayer.play("idle")
 	crouch(MultiplayerInput.get_action_raw_strength(deviceNum, "Crouch") > .4)
@@ -82,6 +82,7 @@ func move(strength: float):
 func jump():
 	if jumping: return
 	jumping = true
+	$Standing/AnimationPlayer.play("jump")
 	$Standing.position.y -= jumpHeight
 	await get_tree().create_timer(.5).timeout
 	$Standing.position.y += jumpHeight
