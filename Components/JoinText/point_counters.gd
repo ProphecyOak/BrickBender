@@ -12,11 +12,12 @@ func _process(_delta):
 
 func startTimer(time: float):
 	$Countdown.start(time)
+	flashing = false
 
 func timeToDisplay():
 	if !flashing and $Countdown.time_left < 10:
 		flashing = true
-		$AnimationPlayer.play("Flashing")
+		$TimerEffects.play("Flashing")
 	if $Countdown.time_left == 0: return "0.00"
 	if $Countdown.time_left < 10:
 		var roundedTime: String = str(round($Countdown.time_left*100)/100)
@@ -25,9 +26,14 @@ func timeToDisplay():
 	return str(round($Countdown.time_left))
 
 func gameOver():
-	$AnimationPlayer.stop()
+	$TimerEffects.stop()
 	if PlayerManager.players[0].points == PlayerManager.players[1].points:
 		$Countdown.start(PlayerManager.overtime)
+		$TimerEffects.play("Overtime")
+		await $TimerEffects.animation_finished
+		$TimerEffects.play("Overtime")
+		await $TimerEffects.animation_finished
+		$Overtime.modulate = Color(1, 1, 1, 0)
 	elif PlayerManager.players[0].points > PlayerManager.players[1].points:
 		PlayerManager.resetPlayers(PlayerManager.players[1])
 	elif PlayerManager.players[0].points < PlayerManager.players[1].points:

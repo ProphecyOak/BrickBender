@@ -1,19 +1,20 @@
-[gd_scene load_steps=18 format=3 uid="uid://ey4l83s7fmnc"]
+[gd_scene load_steps=20 format=3 uid="uid://ey4l83s7fmnc"]
 
-[ext_resource type="Texture2D" uid="uid://bhxqa85a2y33k" path="res://Assets/gradient.jpeg" id="1_pb0kb"]
+[ext_resource type="Texture2D" uid="uid://ca5cpr03wtkvm" path="res://Assets/gradient.jpeg" id="1_pb0kb"]
 [ext_resource type="PackedScene" uid="uid://vp6gfhvel8tj" path="res://Components/Player Container/player_container.tscn" id="2_0i2ab"]
-[ext_resource type="Texture2D" uid="uid://bmsowt60w1ulx" path="res://Assets/library5.svg" id="2_65shq"]
+[ext_resource type="Texture2D" uid="uid://bk75klxrihynb" path="res://Assets/library5.svg" id="2_65shq"]
 [ext_resource type="Script" path="res://Views/Clouds.gd" id="2_luddd"]
-[ext_resource type="Texture2D" uid="uid://bde0j1l70igqk" path="res://Assets/clouds.png" id="3_d5l05"]
-[ext_resource type="Texture2D" uid="uid://b5i7h40u3hdl3" path="res://Assets/lift.png" id="3_j3g3c"]
-[ext_resource type="Texture2D" uid="uid://qe3fxhcvdb6f" path="res://Assets/draftPlatform.svg" id="3_xe6ws"]
+[ext_resource type="Texture2D" uid="uid://bhvyyqxmwraaf" path="res://Assets/clouds.png" id="3_d5l05"]
+[ext_resource type="Texture2D" uid="uid://cvouvx5sq1kfo" path="res://Assets/lift.png" id="3_j3g3c"]
+[ext_resource type="Texture2D" uid="uid://xv05fnpvusxa" path="res://Assets/draftPlatform.svg" id="3_xe6ws"]
 [ext_resource type="PackedScene" uid="uid://blkuttht8yxik" path="res://Components/JoinText/winner_text.tscn" id="6_nbldv"]
 [ext_resource type="PackedScene" uid="uid://bh8n6gkxq1adb" path="res://Components/Coin/coin_join_text.tscn" id="8_5fj1b"]
 [ext_resource type="Script" path="res://Components/FreezeControl/freeze_control.gd" id="8_f4nd3"]
-[ext_resource type="FontFile" uid="uid://cbtuwtba3nnrd" path="res://Assets/Robot Crush.ttf" id="9_ut2uh"]
+[ext_resource type="FontFile" uid="uid://bdhxt1c22fhf2" path="res://Assets/Robot Crush.ttf" id="9_ut2uh"]
 [ext_resource type="Script" path="res://Components/JoinText/point_counters.gd" id="9_xr0cm"]
 [ext_resource type="PackedScene" uid="uid://c4oua7bf7qqwd" path="res://Components/ControlsPanel/controls.tscn" id="11_ugsj7"]
-[ext_resource type="AudioStream" uid="uid://ba8225h256ghf" path="res://Assets/Street Fighter II OST Ken Theme.mp3" id="12_d5llo"]
+[ext_resource type="AudioStream" uid="uid://ibjibmwl1fu6" path="res://Assets/Street Fighter II OST Ken Theme.mp3" id="12_d5llo"]
+[ext_resource type="AudioStream" uid="uid://b65f42kg5hu14" path="res://Assets/beep.wav" id="12_hr3ow"]
 [ext_resource type="Script" path="res://Views/BackgroundPlaylist.gd" id="13_xcrng"]
 
 [sub_resource type="Animation" id="Animation_xf0w1"]
@@ -31,10 +32,38 @@ tracks/0/keys = {
 "update": 1,
 "values": [Color(0, 0, 0, 1), Color(0.741176, 0, 0, 1)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Beeper:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_k58ng"]
+resource_name = "Overtime"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Overtime:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_s5ifu"]
 _data = {
-"Flashing": SubResource("Animation_xf0w1")
+"Flashing": SubResource("Animation_xf0w1"),
+"Overtime": SubResource("Animation_k58ng")
 }
 
 [node name="Main" type="Node2D"]
@@ -180,11 +209,11 @@ offset_bottom = 40.0
 pointCounter = NodePath("../PointCounters/Label")
 
 [node name="Player Container2" parent="." node_paths=PackedStringArray("pointCounter") instance=ExtResource("2_0i2ab")]
-modulate = Color(0.658824, 0.792157, 0.992157, 1)
 position = Vector2(1150, 0)
 scale = Vector2(-1, 1)
 deviceNum = 1
 pointCounter = NodePath("../PointCounters/Label2")
+tint = Color(0, 0.694118, 0.882353, 1)
 
 [node name="coin_join_text" parent="." instance=ExtResource("8_5fj1b")]
 
@@ -255,10 +284,26 @@ vertical_alignment = 1
 [node name="Countdown" type="Timer" parent="PointCounters"]
 one_shot = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="PointCounters"]
+[node name="TimerEffects" type="AnimationPlayer" parent="PointCounters"]
 libraries = {
 "": SubResource("AnimationLibrary_s5ifu")
 }
+
+[node name="Beeper" type="AudioStreamPlayer" parent="PointCounters"]
+stream = ExtResource("12_hr3ow")
+
+[node name="Overtime" type="Label" parent="PointCounters"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_left = 478.0
+offset_top = 145.0
+offset_right = 673.0
+offset_bottom = 258.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "20 Second
+Overtime!"
+horizontal_alignment = 1
 
 [node name="Freeze" type="Node2D" parent="."]
 process_mode = 3

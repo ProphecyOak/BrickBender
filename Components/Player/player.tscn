@@ -1,10 +1,10 @@
-[gd_scene load_steps=21 format=3 uid="uid://cciiqc7rl4val"]
+[gd_scene load_steps=23 format=3 uid="uid://cciiqc7rl4val"]
 
 [ext_resource type="Script" path="res://Components/Player/player.gd" id="1_813ld"]
-[ext_resource type="Texture2D" uid="uid://6je6t4gpvbp7" path="res://Assets/Assets.png" id="2_iju3m"]
-[ext_resource type="AudioStream" uid="uid://brerub4qjpf66" path="res://Assets/zangief-grunt-101soundboards.mp3" id="3_k8cqf"]
-[ext_resource type="AudioStream" uid="uid://di1i1mkje11mu" path="res://Assets/9-101soundboards.mp3" id="4_0xugj"]
-[ext_resource type="AudioStream" uid="uid://c3rbhjhh3s400" path="res://Assets/5-101soundboards.mp3" id="5_ukdtc"]
+[ext_resource type="Texture2D" uid="uid://5yx8vpg1e6wl" path="res://Assets/Assets.png" id="2_iju3m"]
+[ext_resource type="AudioStream" uid="uid://cth2dwevcyxrr" path="res://Assets/zangief-grunt-101soundboards.mp3" id="3_k8cqf"]
+[ext_resource type="AudioStream" uid="uid://dsoiggingkaln" path="res://Assets/9-101soundboards.mp3" id="4_0xugj"]
+[ext_resource type="AudioStream" uid="uid://b0nutuajmjasl" path="res://Assets/5-101soundboards.mp3" id="5_ukdtc"]
 
 [sub_resource type="Animation" id="Animation_v7kjl"]
 resource_name = "crouch"
@@ -127,6 +127,26 @@ _data = {
 "punch": SubResource("Animation_qgiba")
 }
 
+[sub_resource type="Animation" id="Animation_t5twp"]
+resource_name = "Invulnerable"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(":modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.254902, 0.254902, 0.254902, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_84avn"]
+_data = {
+"Invulnerable": SubResource("Animation_t5twp")
+}
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w0hfb"]
 radius = 27.0
 height = 152.0
@@ -169,6 +189,11 @@ frame = 5
 root_node = NodePath("../Standing")
 libraries = {
 "": SubResource("AnimationLibrary_1jn4w")
+}
+
+[node name="EffectHandler" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_84avn")
 }
 
 [node name="StandingHurtBox" type="Area2D" parent="."]

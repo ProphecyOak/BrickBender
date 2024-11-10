@@ -8,8 +8,9 @@ var pointCountdown: Control = null
 var controlsPanel: Node2D = null
 
 var gameMode: int = 1 # 0:Lives, 1:Timed
-var gameLength = 20
-var overtime = 20
+var gameLength: int = 20
+var overtime: int = 20
+var winScreenTime: int = 5
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
@@ -32,7 +33,7 @@ func resetPlayers(loser: PlayerCharacter):
 		x.dead = true
 		x.get_node("../Spawner").deactivate()
 		x.visible = false
-	await get_tree().create_timer(2).timeout
+	await get_tree().create_timer(winScreenTime).timeout
 	for x in players:
 		if gameMode == 0: x.health = 3
 		elif gameMode == 1: x.points = 0

@@ -40,16 +40,6 @@ func _ready():
 	momentumBoost *= -shotDirection
 
 func _process(delta):
-	
-	#print(deviceNum, health)
-	if invulnerable:
-		#$Hurt.play()
-		FlashDuration -= delta
-		if FlashDuration <= 0:
-			modulate = Color(1, 1, 1)
-			invulnerable = false
-		elif fmod(roundf(FlashDuration*10), 2.0) == 0:
-			modulate = Color(1,1,1) if modulate == Color(.5, .5, .5) else Color(.5, .5, .5)
 	if health == 0: PlayerManager.resetPlayers(self)
 	if dead: return
 	if playerControlled: checkForInputs(delta)
@@ -182,10 +172,14 @@ func hitByBrick(area):
 	#get_node("../../Freeze").pause()
 	invulnerable = true
 	currentSpeed += momentumBoost * 1.5
-	FlashDuration = 1.5
+	#FlashDuration = 1.5
 	var hitBrick: Brick = area.get_parent() as Brick
 	if PlayerManager.gameMode == 0: health -= 1
 	elif PlayerManager.gameMode == 1:
 		if hitBrick.horizontalSpeed == 0: points -= 5
 		else: PlayerManager.giveOther(deviceNum, 10)
 	hitBrick.breakApart()
+	for x in range(2):
+		$EffectHandler.play("Invulnerable")
+		await $EffectHandler.animation_finished
+	invulnerable = false
