@@ -30,10 +30,8 @@ func _ready():
 	print("Player: " + str(deviceNum) + " has shotDirection: " + str(shotDirection))
 	speed *= shotDirection
 
-func _process(_delta):
-	if punching == false and kicking == false and crouching == false:
-		print("playing idle")
-		$Standing/AnimationPlayer.play("idle")
+func _process(delta):
+	if !punching and !kicking and !crouching and !jumping: $Standing/AnimationPlayer.play("idle")
 	#print(deviceNum, health)
 	if invulnerable:
 		FlashDuration -= delta
@@ -53,7 +51,7 @@ func toggleJoined():
 	print("Player is " + ("not " if not playerControlled else "") + "in control")
 	
 func checkForInputs():
-	crouch(MultiplayerInput.get_action_raw_strength(deviceNum, "Crouch") > .4)
+	crouch(!jumping and MultiplayerInput.get_action_raw_strength(deviceNum, "Crouch") > .4)
 	if MultiplayerInput.get_action_raw_strength(deviceNum, "Jump") > .7: jump()
 	if !crouching and !jumping:
 		if MultiplayerInput.is_action_just_pressed(deviceNum, "Punch"): punch()
@@ -85,6 +83,11 @@ func directionToMove(brickAbove: Brick):
 	var brickDiff: float = brickAbove.position.x - position.x
 	return -abs(brickDiff)/brickDiff
 
+func anim_done(anim_name: String):
+	if anim_name == "jump": jumpDone()
+	if anim_name == "kick": kickDone()
+	if anim_name == "punch": punchDone()
+
 func move(strength: float):
 	if abs(strength) >= 0.4:
 		self.position.x = clamp(self.position.x + strength * speed, get_parent().edgeBound, get_parent().centerBound) as float
@@ -93,39 +96,37 @@ func jump():
 	if jumping: return
 	jumping = true
 	$Standing/AnimationPlayer.play("jump")
-	$Standing.position.y -= jumpHeight
-	await get_tree().create_timer(.5).timeout
-	$Standing.position.y += jumpHeight
+	
+func jumpDone():
+	$Standing/AnimationPlayer.play("idle")
+	await get_tree().create_timer(.25).timeout
 	jumping = false
 
 func crouch(crouchingOn: bool):
 	crouching = crouchingOn
-	#$Crouching.visible = crouching
 	if crouching: $Standing/AnimationPlayer.play("crouch")
-	#$Standing.visible = !crouching
-	#$Foot.visible = !crouching and !jumping
 	$Standing/HurtBox.set_monitoring(!crouching)
 	$Crouching/HurtBox.set_monitoring(crouching)
 
 func punch():
-	#print("playing punch")
-	$Standing/AnimationPlayer.play("punch")
 	if punching == true: return
+	$Standing/AnimationPlayer.play("punch")
 	punching = true
 	lastAggression = Time.get_unix_time_from_system()
 	#print("Punch")
 	$Fist.position.x += 10
 	for brickBox: Area2D in fistBox.get_overlapping_areas():
 		(brickBox.get_parent() as Brick).shoot()
-	await get_tree().create_timer(.1).timeout
 	
+func punchDone():
+	$Standing/AnimationPlayer.play("idle")
+	await get_tree().create_timer(.25).timeout
 	$Fist.position.x -= 10
 	punching = false
 
 func kick():
-	#print("playing kick")
-	$Standing/AnimationPlayer.play("kick")
 	if kicking == true: return
+	$Standing/AnimationPlayer.play("kick")
 	kicking = true
 	lastAggression = Time.get_unix_time_from_system()
 	#print("Kick")
@@ -133,6 +134,12 @@ func kick():
 	for brickBox: Area2D in footBox.get_overlapping_areas():
 		(brickBox.get_parent() as Brick).shoot()
 	await get_tree().create_timer(.1).timeout
+	$Foot.position.x -= 10
+	kicking = false
+	
+func kickDone():
+	$Standing/AnimationPlayer.play("idle")
+	await get_tree().create_timer(.25).timeout
 	$Foot.position.x -= 10
 	kicking = false
 
