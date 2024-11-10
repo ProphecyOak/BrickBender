@@ -1,8 +1,8 @@
 extends Control
 
 func _ready():
-	PlayerManager.winnerTexts[0] = $PanelContainer
-	PlayerManager.winnerTexts[1] = $PanelContainer2
+	PlayerManager.winnerTexts[0] = $TextureRect
+	PlayerManager.winnerTexts[1] = $TextureRect2
 
 
 @onready var lastBlink = Time.get_unix_time_from_system()

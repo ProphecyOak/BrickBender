@@ -2,7 +2,7 @@ extends Node2D
 
 var players: Array[PlayerCharacter] = [null, null]
 var joinTexts: Array[PanelContainer] = [null, null]
-var winnerTexts: Array[PanelContainer] = [null, null]
+var winnerTexts: Array[TextureRect] = [null, null]
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
