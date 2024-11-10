@@ -1,4 +1,6 @@
 extends Node2D
+
+
 class_name PlayerCharacter
 
 @onready var deviceNum: int = get_parent().deviceNum
@@ -14,12 +16,14 @@ var crouching: bool = false
 var jumping: bool = false
 var jumpHeight: float = 75
 var health: int = 3
-var dead = false
+var dead: bool = false
+var invulnerable: bool = false
+var FlashDuration: float = 1.5
 @onready var birthTime = Time.get_unix_time_from_system()
 
-var lastAggression = 0
-var startedMoving = 0
-var moveDirection = 1
+var lastAggression: int = 0
+var startedMoving: int = 0
+var moveDirection: float = 1
 
 func _ready():
 	PlayerManager.players[deviceNum] = self
@@ -31,6 +35,13 @@ func _process(_delta):
 		print("playing idle")
 		$Standing/AnimationPlayer.play("idle")
 	#print(deviceNum, health)
+	if invulnerable:
+		FlashDuration -= delta
+		if FlashDuration <= 0:
+			modulate = Color(1, 1, 1)
+			invulnerable = false
+		elif fmod(roundf(FlashDuration*10), 2.0) == 0:
+			modulate = Color(1,1,1) if modulate == Color(.5, .5, .5) else Color(.5, .5, .5)
 	if health == 0: PlayerManager.resetPlayers(self)
 	if dead: return
 	if playerControlled: checkForInputs()
@@ -47,7 +58,7 @@ func checkForInputs():
 	if !crouching and !jumping:
 		if MultiplayerInput.is_action_just_pressed(deviceNum, "Punch"): punch()
 		if MultiplayerInput.is_action_just_pressed(deviceNum, "Kick"): kick()
-	move(Input.get_joy_axis(deviceNum, JOY_AXIS_LEFT_X))
+	move(MultiplayerInput.get_axis(deviceNum, "Left", "Right"))
 
 func determineAIBehavior():
 	var currentTime = Time.get_unix_time_from_system()
@@ -106,6 +117,7 @@ func punch():
 	for brickBox: Area2D in fistBox.get_overlapping_areas():
 		(brickBox.get_parent() as Brick).shoot()
 	await get_tree().create_timer(.1).timeout
+	
 	$Fist.position.x -= 10
 	punching = false
 
@@ -124,6 +136,8 @@ func kick():
 	kicking = false
 
 func hitByBrick(area):
-	if Time.get_unix_time_from_system() - birthTime < 1 or dead: return
+	if invulnerable or dead or Time.get_unix_time_from_system() - birthTime < 1: return
+	invulnerable = true
+	FlashDuration = 1.5
 	health -= 1
 	(area.get_parent() as Brick).queue_free()
