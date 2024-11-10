@@ -1,0 +1,172 @@
+[gd_scene load_steps=17 format=3 uid="uid://cn0n2lsnghb7u"]
+
+[ext_resource type="FontFile" uid="uid://b3byl8pc7wmqn" path="res://Assets/pixeboy-font copy/Pixeboy-z8XGD.ttf" id="1_1s2mt"]
+[ext_resource type="Script" path="res://Views/opening_menu.gd" id="1_ghcc3"]
+[ext_resource type="AudioStream" uid="uid://dwds78ak7eqqi" path="res://Assets/Coin Insert Sound Effect - Free Download & No Copyright-[AudioTrimmer.com].mp3" id="3_cl2il"]
+[ext_resource type="PackedScene" uid="uid://dx6vaflohfs7k" path="res://Components/Brick Spawner/spawner.tscn" id="4_e4edi"]
+[ext_resource type="Texture2D" uid="uid://ck8macmt7wkvk" path="res://Assets/scenesprites.svg" id="4_gg0gp"]
+[ext_resource type="Script" path="res://Components/Brick Spawner/spawner2.gd" id="5_g38ei"]
+[ext_resource type="AudioStream" uid="uid://brerub4qjpf66" path="res://Assets/zangief-grunt-101soundboards.mp3" id="5_y3rmk"]
+[ext_resource type="AudioStream" uid="uid://di1i1mkje11mu" path="res://Assets/9-101soundboards.mp3" id="6_4ht1a"]
+[ext_resource type="AudioStream" uid="uid://r3sbs4kuqdsg" path="res://Assets/8-Bit Aang.mp3" id="7_mtoao"]
+[ext_resource type="Texture2D" uid="uid://6osy3r6bkd1q" path="res://Assets/title.png" id="8_jfg63"]
+
+[sub_resource type="Theme" id="Theme_dor2a"]
+default_font = ExtResource("1_1s2mt")
+default_font_size = 50
+
+[sub_resource type="Animation" id="Animation_8pw6i"]
+resource_name = "blink"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_nkgin"]
+resource_name = "blank"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wg4ul"]
+_data = {
+"blank": SubResource("Animation_nkgin"),
+"blink": SubResource("Animation_8pw6i")
+}
+
+[sub_resource type="Animation" id="Animation_jpum1"]
+resource_name = "fade_in"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 9.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.027451), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bydvt"]
+_data = {
+"fade_in": SubResource("Animation_jpum1")
+}
+
+[node name="openingMenu" type="Node2D"]
+script = ExtResource("1_ghcc3")
+
+[node name="BlackBackground" type="ColorRect" parent="."]
+offset_left = -808.0
+offset_top = -90.0
+offset_right = -768.0
+offset_bottom = -50.0
+scale = Vector2(76, 20.1408)
+color = Color(0, 0, 0, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 427.0
+offset_top = 228.0
+offset_right = 714.0
+offset_bottom = 268.0
+theme = SubResource("Theme_dor2a")
+text = "INSERT COIN"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="RichTextLabel"]
+libraries = {
+"": SubResource("AnimationLibrary_wg4ul")
+}
+
+[node name="CoinSound" type="AudioStreamPlayer" parent="RichTextLabel"]
+stream = ExtResource("3_cl2il")
+
+[node name="PlayLabel" type="RichTextLabel" parent="."]
+offset_left = 400.0
+offset_top = 540.0
+offset_right = 704.0
+offset_bottom = 580.0
+theme = SubResource("Theme_dor2a")
+text = "ENTER TO START"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PlayLabel"]
+libraries = {
+"": SubResource("AnimationLibrary_wg4ul")
+}
+
+[node name="CoinSound" type="AudioStreamPlayer" parent="PlayLabel"]
+stream = ExtResource("3_cl2il")
+
+[node name="Spawner" parent="." instance=ExtResource("4_e4edi")]
+script = ExtResource("5_g38ei")
+
+[node name="FirstPopup" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(463, 429)
+scale = Vector2(0.412711, 0.410882)
+texture = ExtResource("4_gg0gp")
+hframes = 4
+vframes = 2
+frame = 1
+
+[node name="FirstSound" type="AudioStreamPlayer" parent="FirstPopup"]
+stream = ExtResource("5_y3rmk")
+
+[node name="SecondPopup" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(768, 321)
+rotation = 0.653277
+scale = Vector2(-0.4303, 0.399214)
+texture = ExtResource("4_gg0gp")
+hframes = 4
+vframes = 2
+frame = 2
+
+[node name="SecondSound" type="AudioStreamPlayer" parent="SecondPopup"]
+stream = ExtResource("6_4ht1a")
+pitch_scale = 0.85
+
+[node name="AvatarTheme" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_mtoao")
+
+[node name="Title" type="Sprite2D" parent="."]
+position = Vector2(577, 130)
+scale = Vector2(0.552083, 0.549074)
+texture = ExtResource("8_jfg63")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Title"]
+libraries = {
+"": SubResource("AnimationLibrary_bydvt")
+}
