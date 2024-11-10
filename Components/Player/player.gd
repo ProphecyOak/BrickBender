@@ -70,11 +70,11 @@ func determineAIBehavior(delta: float):
 		startedMoving = currentTime
 	move(delta, moveDirection)
 	if Time.get_unix_time_from_system() - lastAggression > .5:
-		if len($AI/InFrontFist.get_overlapping_areas()) > 0 and randf() < .8:
+		if len($AI/InFrontFist.get_overlapping_areas()) > 0 and randf() < .5:
 			#Brick in punching range
 			await get_tree().create_timer(.1).timeout
 			punch()
-		elif len($AI/InFrontFoot.get_overlapping_areas()) > 0 and randf() < .8:
+		elif len($AI/InFrontFoot.get_overlapping_areas()) > 0 and randf() < .75:
 			#Brick in kicking range
 			await get_tree().create_timer(.1).timeout
 			kick()

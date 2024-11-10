@@ -8,7 +8,7 @@ var pointCountdown: Control = null
 var controlsPanel: Node2D = null
 
 var gameMode: int = 1 # 0:Lives, 1:Timed
-var gameLength: int = 20
+var gameLength: int = 45
 var overtime: int = 20
 var winScreenTime: int = 5
 
