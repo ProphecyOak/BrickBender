@@ -1,17 +1,16 @@
 [gd_scene load_steps=14 format=3 uid="uid://ey4l83s7fmnc"]
 
-[ext_resource type="Texture2D" uid="uid://bhxqa85a2y33k" path="res://Assets/gradient.jpeg" id="1_pb0kb"]
+[ext_resource type="Texture2D" uid="uid://ca5cpr03wtkvm" path="res://Assets/gradient.jpeg" id="1_pb0kb"]
 [ext_resource type="PackedScene" uid="uid://vp6gfhvel8tj" path="res://Components/Player Container/player_container.tscn" id="2_0i2ab"]
-[ext_resource type="Texture2D" uid="uid://cii8ccvv2hhxv" path="res://Assets/draftLibrary4.svg" id="2_cgki4"]
-[ext_resource type="Texture2D" uid="uid://b5i7h40u3hdl3" path="res://Assets/lift.png" id="3_j3g3c"]
-[ext_resource type="Texture2D" uid="uid://qe3fxhcvdb6f" path="res://Assets/draftPlatform.svg" id="3_xe6ws"]
-[ext_resource type="PackedScene" uid="uid://c737pw181jej2" path="res://Components/JoinText/join_text.tscn" id="5_w3hnb"]
-[ext_resource type="PackedScene" path="res://Components/JoinText/winner_text.tscn" id="6_nbldv"]
-[ext_resource type="Script" path="res://Components/JoinText/winner_text.gd" id="7_agibr"]
+[ext_resource type="Texture2D" uid="uid://bkhacrab76r83" path="res://Assets/draftLibrary4.svg" id="2_cgki4"]
+[ext_resource type="Texture2D" uid="uid://cvouvx5sq1kfo" path="res://Assets/lift.png" id="3_j3g3c"]
+[ext_resource type="Texture2D" uid="uid://xv05fnpvusxa" path="res://Assets/draftPlatform.svg" id="3_xe6ws"]
+[ext_resource type="PackedScene" uid="uid://i4xs0dgal5we" path="res://Components/JoinText/winner_text.tscn" id="6_nbldv"]
 [ext_resource type="PackedScene" uid="uid://bh8n6gkxq1adb" path="res://Components/Coin/coin_join_text.tscn" id="8_5fj1b"]
 [ext_resource type="Script" path="res://Components/FreezeControl/freeze_control.gd" id="8_f4nd3"]
 [ext_resource type="FontFile" uid="uid://bdhxt1c22fhf2" path="res://Assets/Robot Crush.ttf" id="9_ut2uh"]
 [ext_resource type="Script" path="res://Components/JoinText/point_counters.gd" id="9_xr0cm"]
+[ext_resource type="PackedScene" uid="uid://c4oua7bf7qqwd" path="res://Components/ControlsPanel/controls.tscn" id="11_ugsj7"]
 
 [sub_resource type="Animation" id="Animation_xf0w1"]
 resource_name = "Flashing"
@@ -159,15 +158,9 @@ scale = Vector2(-1, 1)
 deviceNum = 1
 pointCounter = NodePath("../PointCounters/Label2")
 
-[node name="Join Text" parent="." instance=ExtResource("5_w3hnb")]
-visible = false
-
 [node name="coin_join_text" parent="." instance=ExtResource("8_5fj1b")]
-offset_top = -38.0
-offset_bottom = -38.0
 
 [node name="Winner Text" parent="." instance=ExtResource("6_nbldv")]
-script = ExtResource("7_agibr")
 
 [node name="PointCounters" type="Control" parent="."]
 layout_mode = 3
@@ -242,5 +235,9 @@ libraries = {
 [node name="Freeze" type="Node2D" parent="."]
 process_mode = 3
 script = ExtResource("8_f4nd3")
+
+[node name="Controls" parent="." instance=ExtResource("11_ugsj7")]
+position = Vector2(574, 404)
+scale = Vector2(2, 2)
 
 [connection signal="timeout" from="PointCounters/Countdown" to="PointCounters" method="gameOver"]

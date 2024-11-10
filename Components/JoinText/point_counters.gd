@@ -5,7 +5,7 @@ var flashing: bool = false
 func _ready():
 	visible = PlayerManager.gameMode == 1
 	PlayerManager.pointCountdown = self
-	startTimer(20)
+	startTimer(PlayerManager.gameLength)
 
 func _process(_delta):
 	$Timer.text = timeToDisplay()
@@ -27,7 +27,7 @@ func timeToDisplay():
 func gameOver():
 	$AnimationPlayer.stop()
 	if PlayerManager.players[0].points == PlayerManager.players[1].points:
-		$Countdown.start(20)
+		$Countdown.start(PlayerManager.overtime)
 	elif PlayerManager.players[0].points > PlayerManager.players[1].points:
 		PlayerManager.resetPlayers(PlayerManager.players[1])
 	elif PlayerManager.players[0].points < PlayerManager.players[1].points:

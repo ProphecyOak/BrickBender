@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://i4xs0dgal5we"]
 
-[ext_resource type="Script" path="res://Components/JoinText/join_text.gd" id="1_1ig4s"]
+[ext_resource type="Script" path="res://Components/JoinText/winner_text.gd" id="1_fpe2g"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_862ky"]
 bg_color = Color(0.964706, 0.388235, 0.294118, 1)
@@ -10,7 +10,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 1150.0
 offset_bottom = 650.0
-script = ExtResource("1_1ig4s")
+script = ExtResource("1_fpe2g")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 visible = false

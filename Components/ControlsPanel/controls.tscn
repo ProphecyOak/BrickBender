@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://c4oua7bf7qqwd"]
 
-[ext_resource type="Texture2D" uid="uid://dko0o4d8f2a5" path="res://Assets/controllerV2.png" id="1_5qw1j"]
+[ext_resource type="Texture2D" uid="uid://b8qp7ad3rkk4t" path="res://Assets/controllerV2.png" id="1_5qw1j"]
 [ext_resource type="Script" path="res://Components/ControlsPanel/controls.gd" id="1_iwi8a"]
-[ext_resource type="FontFile" uid="uid://b3byl8pc7wmqn" path="res://Assets/pixeboy-font copy/Pixeboy-z8XGD.ttf" id="2_7fc54"]
+[ext_resource type="FontFile" uid="uid://dv0bfimaenudp" path="res://Assets/pixeboy-font copy/Pixeboy-z8XGD.ttf" id="2_7fc54"]
 
 [sub_resource type="Animation" id="Animation_ko6kl"]
 resource_name = "fade"
@@ -30,13 +30,7 @@ _data = {
 default_font = ExtResource("2_7fc54")
 default_font_size = 50
 
-[node name="Controls" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Controls" type="Node2D"]
 script = ExtResource("1_iwi8a")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -46,35 +40,35 @@ libraries = {
 }
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(574, 296)
+position = Vector2(3.50015, -14)
 scale = Vector2(0.221094, 0.211111)
 texture = ExtResource("1_5qw1j")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
-offset_left = 525.0
-offset_top = 286.0
-offset_right = 664.0
-offset_bottom = 345.0
+offset_left = -45.4998
+offset_top = -24.0001
+offset_right = 93.5002
+offset_bottom = 34.9999
 scale = Vector2(0.201285, 0.203167)
 theme = SubResource("Theme_wn8wy")
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 text = "Move"
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="."]
-offset_left = 603.0
-offset_top = 286.0
-offset_right = 757.0
-offset_bottom = 345.0
+offset_left = 32.5002
+offset_top = -24.0001
+offset_right = 186.5
+offset_bottom = 34.9999
 scale = Vector2(0.201285, 0.203167)
 theme = SubResource("Theme_wn8wy")
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 text = "Punch"
 
 [node name="RichTextLabel3" type="RichTextLabel" parent="."]
-offset_left = 607.0
-offset_top = 319.0
-offset_right = 761.0
-offset_bottom = 378.0
+offset_left = 36.5002
+offset_top = 8.99992
+offset_right = 190.5
+offset_bottom = 67.9999
 scale = Vector2(0.201285, 0.203167)
 theme = SubResource("Theme_wn8wy")
 theme_override_colors/default_color = Color(0, 0, 0, 1)

@@ -1,11 +1,15 @@
 extends Node2D
 
 var players: Array[PlayerCharacter] = [null, null]
-var joinTexts: Array[PanelContainer] = [null, null]
+var connected: Array[bool] = [false, false]
+var joinTexts: Array[Node2D] = [null, null]
 var winnerTexts: Array[PanelContainer] = [null, null]
 var pointCountdown: Control = null
+var controlsPanel: Node2D = null
 
 var gameMode: int = 1 # 0:Lives, 1:Timed
+var gameLength = 20
+var overtime = 20
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
@@ -14,6 +18,8 @@ func _process(_delta):
 	for device in Input.get_connected_joypads():
 		if MultiplayerInput.is_action_just_pressed(device, "Join"):
 			players[device].toggleJoined()
+			connected[device] = !connected[device]
+			controlsPanel.visible = !connected[0] and !connected[1]
 			joinTexts[device].visible = !joinTexts[device].visible
 
 func giveOther(deviceNum: int, pts: int):
@@ -40,4 +46,4 @@ func resetPlayers(loser: PlayerCharacter):
 		x.kicking = false
 		x.jumping = false
 		x.crouching = false
-	pointCountdown.startTimer(20)
+	pointCountdown.startTimer(gameLength)
