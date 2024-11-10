@@ -31,7 +31,6 @@ func _ready():
 	speed *= shotDirection
 
 func _process(delta):
-	if !punching and !kicking and !crouching and !jumping: $Standing/AnimationPlayer.play("idle")
 	#print(deviceNum, health)
 	if invulnerable:
 		FlashDuration -= delta
@@ -42,6 +41,8 @@ func _process(delta):
 			modulate = Color(1,1,1) if modulate == Color(.5, .5, .5) else Color(.5, .5, .5)
 	if health == 0: PlayerManager.resetPlayers(self)
 	if dead: return
+	if !punching and !kicking and !jumping:
+		$Standing/AnimationPlayer.play("idle" if !crouching else "crouch")
 	if playerControlled: checkForInputs()
 	else: determineAIBehavior()
 	get_parent().updateUI()
@@ -99,13 +100,13 @@ func jump():
 	$Standing/AnimationPlayer.play("jump")
 	
 func jumpDone():
+	print("JumpDone")
 	$Standing/AnimationPlayer.play("idle")
 	await get_tree().create_timer(.25).timeout
 	jumping = false
 
 func crouch(crouchingOn: bool):
 	crouching = crouchingOn
-	if crouching: $Standing/AnimationPlayer.play("crouch")
 	$Standing/HurtBox.set_monitoring(!crouching)
 	$Crouching/HurtBox.set_monitoring(crouching)
 
