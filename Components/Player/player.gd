@@ -92,6 +92,7 @@ func move(strength: float):
 func jump():
 	if jumping: return
 	jumping = true
+	$Standing/AnimationPlayer.play("jump")
 	$Standing.position.y -= jumpHeight
 	await get_tree().create_timer(.5).timeout
 	$Standing.position.y += jumpHeight
