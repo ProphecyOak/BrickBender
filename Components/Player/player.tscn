@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cciiqc7rl4val"]
+[gd_scene load_steps=16 format=3 uid="uid://cciiqc7rl4val"]
 
 [ext_resource type="Script" path="res://Components/Player/player.gd" id="1_813ld"]
 [ext_resource type="Texture2D" uid="uid://c8107w5cacaxo" path="res://Assets/icon.svg" id="1_f7eq7"]
@@ -98,6 +98,10 @@ _data = {
 radius = 27.0
 height = 152.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6f73w"]
+radius = 26.0
+height = 114.0
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1xgon"]
 radius = 57.894
 height = 119.406
@@ -120,20 +124,32 @@ scale = Vector2(0.166817, 0.170207)
 texture = ExtResource("2_iju3m")
 hframes = 3
 vframes = 2
+frame = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Standing"]
 libraries = {
 "": SubResource("AnimationLibrary_1jn4w")
 }
 
-[node name="HurtBox" type="Area2D" parent="Standing"]
+[node name="StandingHurtBox" type="Area2D" parent="Standing"]
 position = Vector2(-395.643, 23.501)
 scale = Vector2(5.99459, 5.87521)
 collision_layer = 4
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Standing/HurtBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Standing/StandingHurtBox"]
 shape = SubResource("CapsuleShape2D_w0hfb")
+
+[node name="JumpingHurtBox" type="Area2D" parent="Standing"]
+position = Vector2(-395.643, 23.501)
+scale = Vector2(5.99459, 5.87521)
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Standing/JumpingHurtBox"]
+position = Vector2(-2.28882e-05, -34)
+shape = SubResource("CapsuleShape2D_6f73w")
 
 [node name="Crouching" type="Sprite2D" parent="."]
 visible = false
@@ -208,5 +224,6 @@ shape = SubResource("RectangleShape2D_1ejjl")
 
 [connection signal="animation_changed" from="Standing/AnimationPlayer" to="." method="anim_done"]
 [connection signal="animation_finished" from="Standing/AnimationPlayer" to="." method="anim_done"]
-[connection signal="area_entered" from="Standing/HurtBox" to="." method="hitByBrick"]
+[connection signal="area_entered" from="Standing/StandingHurtBox" to="." method="hitByBrick"]
+[connection signal="area_entered" from="Standing/JumpingHurtBox" to="." method="hitByBrick"]
 [connection signal="area_entered" from="Crouching/HurtBox" to="." method="hitByBrick"]

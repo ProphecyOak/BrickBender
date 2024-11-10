@@ -98,16 +98,19 @@ func jump():
 	if jumping: return
 	jumping = true
 	$Standing/AnimationPlayer.play("jump")
+	$Standing/StandingHurtBox.set_monitorable(false)
+	$Standing/JumpingHurtBox.set_monitorable(true)
 	
 func jumpDone():
-	print("JumpDone")
+	$Standing/StandingHurtBox.set_monitorable(true)
+	$Standing/JumpingHurtBox.set_monitorable(false)
 	$Standing/AnimationPlayer.play("idle")
 	await get_tree().create_timer(.25).timeout
 	jumping = false
 
 func crouch(crouchingOn: bool):
 	crouching = crouchingOn
-	$Standing/HurtBox.set_monitoring(!crouching)
+	$Standing/StandingHurtBox.set_monitoring(!crouching)
 	$Crouching/HurtBox.set_monitoring(crouching)
 
 func punch():
