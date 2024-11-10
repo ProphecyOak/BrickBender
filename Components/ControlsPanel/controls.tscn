@@ -1,0 +1,81 @@
+[gd_scene load_steps=7 format=3 uid="uid://c4oua7bf7qqwd"]
+
+[ext_resource type="Texture2D" uid="uid://dko0o4d8f2a5" path="res://Assets/controllerV2.png" id="1_5qw1j"]
+[ext_resource type="Script" path="res://Components/ControlsPanel/controls.gd" id="1_iwi8a"]
+[ext_resource type="FontFile" uid="uid://b3byl8pc7wmqn" path="res://Assets/pixeboy-font copy/Pixeboy-z8XGD.ttf" id="2_7fc54"]
+
+[sub_resource type="Animation" id="Animation_ko6kl"]
+resource_name = "fade"
+length = 5.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.5, 5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.027451), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nrpqt"]
+_data = {
+"fade": SubResource("Animation_ko6kl")
+}
+
+[sub_resource type="Theme" id="Theme_wn8wy"]
+default_font = ExtResource("2_7fc54")
+default_font_size = 50
+
+[node name="Controls" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_iwi8a")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Sprite2D")
+libraries = {
+"": SubResource("AnimationLibrary_nrpqt")
+}
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(574, 296)
+scale = Vector2(0.221094, 0.211111)
+texture = ExtResource("1_5qw1j")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 525.0
+offset_top = 286.0
+offset_right = 664.0
+offset_bottom = 345.0
+scale = Vector2(0.201285, 0.203167)
+theme = SubResource("Theme_wn8wy")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+text = "Move"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+offset_left = 603.0
+offset_top = 286.0
+offset_right = 757.0
+offset_bottom = 345.0
+scale = Vector2(0.201285, 0.203167)
+theme = SubResource("Theme_wn8wy")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+text = "Punch"
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="."]
+offset_left = 607.0
+offset_top = 319.0
+offset_right = 761.0
+offset_bottom = 378.0
+scale = Vector2(0.201285, 0.203167)
+theme = SubResource("Theme_wn8wy")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+text = "Kick"
