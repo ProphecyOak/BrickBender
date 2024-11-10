@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://hlhv5mg6tcmq"]
 
 [ext_resource type="Script" path="res://Components/Coin/coin.gd" id="1_1anyc"]
-[ext_resource type="Texture2D" uid="uid://dd0xpf75a3tsi" path="res://Assets/coin2.png" id="1_kvln6"]
-[ext_resource type="FontFile" uid="uid://dv0bfimaenudp" path="res://Assets/pixeboy-font copy/Pixeboy-z8XGD.ttf" id="2_q5om0"]
+[ext_resource type="Texture2D" uid="uid://dy4p4pd6clm3h" path="res://Assets/coin2.png" id="1_kvln6"]
+[ext_resource type="FontFile" uid="uid://b3byl8pc7wmqn" path="res://Assets/pixeboy-font copy/Pixeboy-z8XGD.ttf" id="2_q5om0"]
 
 [sub_resource type="Theme" id="Theme_su0br"]
 default_font = ExtResource("2_q5om0")
