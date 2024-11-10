@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://cciiqc7rl4val"]
 
 [ext_resource type="Script" path="res://Components/Player/player.gd" id="1_813ld"]
-[ext_resource type="Texture2D" uid="uid://5yx8vpg1e6wl" path="res://Assets/Assets.png" id="2_iju3m"]
+[ext_resource type="Texture2D" uid="uid://6je6t4gpvbp7" path="res://Assets/Assets.png" id="2_iju3m"]
 
 [sub_resource type="Animation" id="Animation_v7kjl"]
 resource_name = "crouch"
@@ -175,7 +175,6 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FistHitBox"]
 position = Vector2(183.277, -67.6879)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_kdb7r")
 
 [node name="FootHitBox" type="Area2D" parent="."]

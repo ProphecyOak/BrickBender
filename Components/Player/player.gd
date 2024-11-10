@@ -167,4 +167,4 @@ func hitByBrick(area):
 	currentSpeed += momentumBoost * 1.5
 	FlashDuration = 1.5
 	health -= 1
-	(area.get_parent() as Brick).queue_free()
+	(area.get_parent() as Brick).breakApart()

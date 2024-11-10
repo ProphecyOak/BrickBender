@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://ey4l83s7fmnc"]
 
-[ext_resource type="Texture2D" uid="uid://ca5cpr03wtkvm" path="res://Assets/gradient.jpeg" id="1_pb0kb"]
+[ext_resource type="Texture2D" uid="uid://bhxqa85a2y33k" path="res://Assets/gradient.jpeg" id="1_pb0kb"]
 [ext_resource type="PackedScene" uid="uid://vp6gfhvel8tj" path="res://Components/Player Container/player_container.tscn" id="2_0i2ab"]
-[ext_resource type="Texture2D" uid="uid://bkhacrab76r83" path="res://Assets/draftLibrary4.svg" id="2_cgki4"]
-[ext_resource type="Texture2D" uid="uid://xv05fnpvusxa" path="res://Assets/draftPlatform.svg" id="3_xe6ws"]
+[ext_resource type="Texture2D" uid="uid://cii8ccvv2hhxv" path="res://Assets/draftLibrary4.svg" id="2_cgki4"]
+[ext_resource type="Texture2D" uid="uid://qe3fxhcvdb6f" path="res://Assets/draftPlatform.svg" id="3_xe6ws"]
 [ext_resource type="PackedScene" uid="uid://c737pw181jej2" path="res://Components/JoinText/join_text.tscn" id="5_w3hnb"]
-[ext_resource type="PackedScene" uid="uid://i4xs0dgal5we" path="res://Components/JoinText/winner_text.tscn" id="6_nbldv"]
+[ext_resource type="PackedScene" path="res://Components/JoinText/winner_text.tscn" id="6_nbldv"]
 [ext_resource type="Script" path="res://Components/JoinText/winner_text.gd" id="7_agibr"]
 [ext_resource type="Script" path="res://Components/FreezeControl/freeze_control.gd" id="8_f4nd3"]
 
