@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bh8n6gkxq1adb"]
+
+[ext_resource type="Script" path="res://Components/Coin/coin_join_text.gd" id="1_vrw8v"]
+[ext_resource type="PackedScene" uid="uid://hlhv5mg6tcmq" path="res://Components/Coin/coin.tscn" id="1_xbsfv"]
+
+[node name="coin_join_text" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vrw8v")
+
+[node name="Coin" parent="." instance=ExtResource("1_xbsfv")]
+
+[node name="Coin2" parent="." instance=ExtResource("1_xbsfv")]
+position = Vector2(510, 2)
