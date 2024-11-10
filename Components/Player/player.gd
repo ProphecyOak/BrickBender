@@ -6,8 +6,9 @@ class_name PlayerCharacter
 @onready var deviceNum: int = get_parent().deviceNum
 @onready var shotDirection = get_parent().scale.x
 var playerControlled: bool = false
+var points = 0
 
-const jumpHeight: float = 150
+const jumpHeight: float = 75
 const crouchShrink: float = 30
 @onready var defaultY = position.y
 
@@ -35,7 +36,7 @@ var moveDirection: float = 1
 
 func _ready():
 	PlayerManager.players[deviceNum] = self
-	print("Player: " + str(deviceNum) + " has shotDirection: " + str(shotDirection))
+	#print("Player: " + str(deviceNum) + " has shotDirection: " + str(shotDirection))
 	momentumBoost *= -shotDirection
 
 func _process(delta):
@@ -52,7 +53,6 @@ func _process(delta):
 	if playerControlled: checkForInputs(delta)
 	else: determineAIBehavior(delta)
 	get_parent().updateUI()
-	print($Standing.offset)
 	#if deviceNum == 1: print("Punching: " + str(punching) + " Kicking: " + str(kicking) + " Jumping: " + str(jumping) + " Crouching: " + str(crouching))
 
 func toggleJoined():
@@ -173,5 +173,9 @@ func hitByBrick(area):
 	invulnerable = true
 	currentSpeed += momentumBoost * 1.5
 	FlashDuration = 1.5
-	health -= 1
-	(area.get_parent() as Brick).breakApart()
+	var hitBrick: Brick = area.get_parent() as Brick
+	if PlayerManager.gameMode == 0: health -= 1
+	elif PlayerManager.gameMode == 1:
+		if hitBrick.horizontalSpeed == 0: points -= 5
+		else: PlayerManager.giveOther(deviceNum, 10)
+	hitBrick.breakApart()

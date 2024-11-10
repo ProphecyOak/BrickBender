@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ey4l83s7fmnc"]
+[gd_scene load_steps=14 format=3 uid="uid://ey4l83s7fmnc"]
 
 [ext_resource type="Texture2D" uid="uid://ca5cpr03wtkvm" path="res://Assets/gradient.jpeg" id="1_pb0kb"]
 [ext_resource type="PackedScene" uid="uid://vp6gfhvel8tj" path="res://Components/Player Container/player_container.tscn" id="2_0i2ab"]
@@ -9,6 +9,29 @@
 [ext_resource type="PackedScene" uid="uid://i4xs0dgal5we" path="res://Components/JoinText/winner_text.tscn" id="6_nbldv"]
 [ext_resource type="Script" path="res://Components/JoinText/winner_text.gd" id="7_agibr"]
 [ext_resource type="Script" path="res://Components/FreezeControl/freeze_control.gd" id="8_f4nd3"]
+[ext_resource type="FontFile" uid="uid://bdhxt1c22fhf2" path="res://Assets/Robot Crush.ttf" id="9_ut2uh"]
+[ext_resource type="Script" path="res://Components/JoinText/point_counters.gd" id="9_xr0cm"]
+
+[sub_resource type="Animation" id="Animation_xf0w1"]
+resource_name = "Flashing"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Timer:theme_override_colors/font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Color(0, 0, 0, 1), Color(0.741176, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_s5ifu"]
+_data = {
+"Flashing": SubResource("Animation_xf0w1")
+}
 
 [node name="Main" type="Node2D"]
 
@@ -126,18 +149,92 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Player Container" parent="." instance=ExtResource("2_0i2ab")]
+[node name="Player Container" parent="." node_paths=PackedStringArray("pointCounter") instance=ExtResource("2_0i2ab")]
+pointCounter = NodePath("../PointCounters/Label")
 
-[node name="Player Container2" parent="." instance=ExtResource("2_0i2ab")]
+[node name="Player Container2" parent="." node_paths=PackedStringArray("pointCounter") instance=ExtResource("2_0i2ab")]
 position = Vector2(1150, 0)
 scale = Vector2(-1, 1)
 deviceNum = 1
+pointCounter = NodePath("../PointCounters/Label2")
 
 [node name="Join Text" parent="." instance=ExtResource("5_w3hnb")]
 
 [node name="Winner Text" parent="." instance=ExtResource("6_nbldv")]
 script = ExtResource("7_agibr")
 
+[node name="PointCounters" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1150.0
+offset_bottom = 650.0
+script = ExtResource("9_xr0cm")
+
+[node name="Label" type="Label" parent="PointCounters"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = -63.0
+offset_right = 390.0
+offset_bottom = -25.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_ut2uh")
+theme_override_font_sizes/font_size = 45
+text = "200000000000000"
+vertical_alignment = 1
+
+[node name="Timer" type="Label" parent="PointCounters"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -91.0
+offset_top = -96.0
+offset_right = 91.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_ut2uh")
+theme_override_font_sizes/font_size = 55
+text = "20000s"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="PointCounters"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -390.0
+offset_top = -63.0
+offset_right = -25.0
+offset_bottom = -25.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_ut2uh")
+theme_override_font_sizes/font_size = 45
+text = "200000000000000"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Countdown" type="Timer" parent="PointCounters"]
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PointCounters"]
+libraries = {
+"": SubResource("AnimationLibrary_s5ifu")
+}
+
 [node name="Freeze" type="Node2D" parent="."]
 process_mode = 3
 script = ExtResource("8_f4nd3")
+
+[connection signal="timeout" from="PointCounters/Countdown" to="PointCounters" method="gameOver"]
