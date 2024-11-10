@@ -6,6 +6,7 @@ var winnerTexts: Array[PanelContainer] = [null, null]
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	print(Input.get_connected_joypads())
 
 func _process(_delta):
 	for device in Input.get_connected_joypads():

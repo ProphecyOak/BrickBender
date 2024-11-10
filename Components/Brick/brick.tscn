@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://c300wclerm15h"]
 
 [ext_resource type="Script" path="res://Components/Brick/brick.gd" id="1_1skka"]
-[ext_resource type="Texture2D" uid="uid://ctxxwqfkos3t6" path="res://Assets/bricks.png" id="2_6b156"]
+[ext_resource type="Texture2D" uid="uid://bn547mmk7m55g" path="res://Assets/bricks.png" id="2_6b156"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0q1gr"]
 size = Vector2(136, 70)
@@ -9,22 +9,6 @@ size = Vector2(136, 70)
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qodfq"]
 radius = 29.0
 height = 120.0
-
-[sub_resource type="Animation" id="Animation_28ovv"]
-resource_name = "normal"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Icon:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(-0.2),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
 
 [sub_resource type="Animation" id="Animation_4wuhv"]
 resource_name = "explode"
@@ -40,6 +24,22 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="Animation" id="Animation_28ovv"]
+resource_name = "normal"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Icon:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.2),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_n4b26"]

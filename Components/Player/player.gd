@@ -12,8 +12,9 @@ const crouchShrink: float = 30
 
 var currentSpeed: float = 0
 var acc: float = 900
-var maxSpeed: float = 300
-var friction: float = 800
+var maxSpeed: float = 250
+var slowingFriction: float = 700
+var movingFriction: float = 250
 var momentumBoost: float = 100
 
 var punching: bool = false
@@ -97,11 +98,12 @@ func anim_done(anim_name: String):
 	if anim_name == "punch": punchDone()
 
 func move(delta: float, strength: float):
-	var appliedForce: float = 0 if jumping else acc * strength * delta
-	var frictionForce: float = 0 if !crouching and !jumping else clampf(friction * sign(currentSpeed) * delta, min(currentSpeed, 0), max(currentSpeed, 0))
+	var appliedForce: float = 0.0 if jumping else acc * strength * delta
+	currentSpeed = clampf(currentSpeed + appliedForce, -maxSpeed, maxSpeed)
+	var frictionForce: float = clampf((movingFriction if abs(strength) > .4 else slowingFriction) * delta, 0, abs(currentSpeed))
 	if crouching: frictionForce *= 1.5
-	currentSpeed = clampf(currentSpeed + appliedForce - frictionForce, -maxSpeed, maxSpeed)
-	self.position.x = clamp(self.position.x + currentSpeed * shotDirection * delta, get_parent().edgeBound, get_parent().centerBound) as float
+	currentSpeed = currentSpeed - frictionForce * sign(currentSpeed)
+	self.position.x = clampf(self.position.x + currentSpeed * shotDirection * delta, get_parent().edgeBound, get_parent().centerBound)
 	#if deviceNum == 0: print(sign(currentSpeed), " Speed: ", round(currentSpeed), " Input: ", round(strength), " Friction: ", round(frictionForce), " Applied: ", appliedForce)
 
 func jump():
@@ -122,7 +124,7 @@ func jumpDone():
 
 func crouch(crouchingOn: bool):
 	crouching = crouchingOn
-	$Standing.position.y = 0 if !crouching else crouchShrink
+	$Standing.position.y = 0.0 if !crouching else crouchShrink
 	$StandingHurtBox.set_monitoring(!crouching)
 	$CrouchingHurtBox.set_monitoring(crouching)
 
@@ -162,7 +164,7 @@ func kickDone():
 
 func hitByBrick(area):
 	if invulnerable or dead or Time.get_unix_time_from_system() - birthTime < 1: return
-	get_node("../../Freeze").pause()
+	#get_node("../../Freeze").pause()
 	invulnerable = true
 	currentSpeed += momentumBoost * 1.5
 	FlashDuration = 1.5

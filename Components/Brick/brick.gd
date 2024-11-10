@@ -35,7 +35,7 @@ func shoot():
 	fallSpeed = 0
 	
 func breakApart(hitByPlayer: bool = true):
-	$Hurtbox.set_monitorable(false)
+	$Hurtbox.set_deferred("monitorable", false)
 	$Hitbox.set_monitorable(false)
 	$AnimationPlayer.play("explode")
 	#modulate = Color(0, .5, 0)
