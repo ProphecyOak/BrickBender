@@ -5,7 +5,7 @@ class_name Brick
 var rotation_speed: float = 0.0
 var rotation_direction: float = 1
 var horizontalSpeed: float = 0
-var fallSpeed: float = 5
+var fallSpeed: float = 500
 var shotBack: bool = false
 var health: int = 4
 var lastHit = 0
@@ -17,8 +17,8 @@ func _ready():
 	rotation_direction = 1 if rotation_direction_random_num < .5 else -1
 
 
-func _physics_process(_delta):
-	position += (Vector2(horizontalSpeed, fallSpeed))
+func _physics_process(delta):
+	position += (Vector2(horizontalSpeed, fallSpeed)) * delta
 	rotation += rotation_direction * rotation_speed
 	
 func shoot():
@@ -28,7 +28,7 @@ func shoot():
 	if health <= 0:
 		breakApart(false)
 		return
-	if health == 3: horizontalSpeed = 10
+	if health == 3: horizontalSpeed = 700
 	else: horizontalSpeed = 2 + abs(horizontalSpeed)
 	if shotBack: horizontalSpeed *= -1
 	shotBack = !shotBack
@@ -36,11 +36,10 @@ func shoot():
 	
 func breakApart(hitByPlayer: bool = true):
 	$Hurtbox.set_deferred("monitorable", false)
-	$Hitbox.set_monitorable(false)
+	$Hitbox.set_deferred("monitorable", false)
 	$AnimationPlayer.play("explode")
-	#modulate = Color(0, .5, 0)
 	rotation_speed = 0
 	if hitByPlayer: horizontalSpeed *= -.1
-	fallSpeed = 3
+	fallSpeed = 100
 	await get_tree().create_timer(.5).timeout
 	queue_free()
