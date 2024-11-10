@@ -1,10 +1,10 @@
 [gd_scene load_steps=23 format=3 uid="uid://cciiqc7rl4val"]
 
 [ext_resource type="Script" path="res://Components/Player/player.gd" id="1_813ld"]
-[ext_resource type="Texture2D" uid="uid://5yx8vpg1e6wl" path="res://Assets/Assets.png" id="2_iju3m"]
-[ext_resource type="AudioStream" uid="uid://cth2dwevcyxrr" path="res://Assets/zangief-grunt-101soundboards.mp3" id="3_k8cqf"]
-[ext_resource type="AudioStream" uid="uid://dsoiggingkaln" path="res://Assets/9-101soundboards.mp3" id="4_0xugj"]
-[ext_resource type="AudioStream" uid="uid://b0nutuajmjasl" path="res://Assets/5-101soundboards.mp3" id="5_ukdtc"]
+[ext_resource type="Texture2D" uid="uid://6je6t4gpvbp7" path="res://Assets/Assets.png" id="2_iju3m"]
+[ext_resource type="AudioStream" uid="uid://brerub4qjpf66" path="res://Assets/zangief-grunt-101soundboards.mp3" id="3_k8cqf"]
+[ext_resource type="AudioStream" uid="uid://di1i1mkje11mu" path="res://Assets/9-101soundboards.mp3" id="4_0xugj"]
+[ext_resource type="AudioStream" uid="uid://c3rbhjhh3s400" path="res://Assets/5-101soundboards.mp3" id="5_ukdtc"]
 
 [sub_resource type="Animation" id="Animation_v7kjl"]
 resource_name = "crouch"
@@ -183,7 +183,6 @@ scale = Vector2(0.166817, 0.170207)
 texture = ExtResource("2_iju3m")
 hframes = 4
 vframes = 2
-frame = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Standing")
