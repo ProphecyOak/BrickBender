@@ -1,5 +1,5 @@
 extends Node2D
-class_name Brick
+class_name Brick  
 
 # Variables to control rotation... 1 for clockwise, -1 for counterclockwise
 var rotation_speed: float = 0.0
@@ -16,17 +16,20 @@ func _ready():
 	var rotation_direction_random_num: float = randf_range(0,1)
 	rotation_direction = 1 if rotation_direction_random_num < .5 else -1
 
+
 func _physics_process(_delta):
 	position += (Vector2(horizontalSpeed, fallSpeed))
 	rotation += rotation_direction * rotation_speed
 	
 func shoot():
-	if Time.get_unix_time_from_system() - lastHit < .3: return
-	health -= 1
+
+	if Time.get_unix_time_from_system() - lastHit < .5: return
+	health -=   1
 	if health <= 0:
 		breakApart()
 		return
-	horizontalSpeed = 10
+	if health == 3: horizontalSpeed = 10
+	else: horizontalSpeed = 2 + abs(horizontalSpeed)
 	if shotBack: horizontalSpeed *= -1
 	shotBack = !shotBack
 	fallSpeed = 0
@@ -39,4 +42,3 @@ func breakApart():
 	fallSpeed = 3
 	await get_tree().create_timer(.5).timeout
 	queue_free()
-	

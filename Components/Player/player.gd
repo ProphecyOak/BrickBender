@@ -21,8 +21,8 @@ var invulnerable: bool = false
 var FlashDuration: float = 1.5
 @onready var birthTime = Time.get_unix_time_from_system()
 
-var lastAggression: int = 0
-var startedMoving: int = 0
+var lastAggression: float = 0
+var startedMoving: float = 0
 var moveDirection: float = 1
 
 func _ready():
@@ -30,7 +30,7 @@ func _ready():
 	print("Player: " + str(deviceNum) + " has shotDirection: " + str(shotDirection))
 	speed *= shotDirection
 
-func _process(_delta):
+func _process(delta):
 	if punching == false and kicking == false and crouching == false:
 		print("playing idle")
 		$Standing/AnimationPlayer.play("idle")
@@ -67,6 +67,7 @@ func determineAIBehavior():
 	if len(bricksAbove) > 0:
 		#Brick falling on head
 		moveDirection = directionToMove(bricksAbove[0].get_parent())
+		moveDirection *= 1 if deviceNum == 0 else -1
 		startedMoving = currentTime
 	move(moveDirection)
 	if Time.get_unix_time_from_system() - lastAggression > .5:
@@ -80,8 +81,8 @@ func determineAIBehavior():
 			kick()
 
 func directionToMove(brickAbove: Brick):
-	if abs(position.x - get_parent().edgeBound) < 100: return 1
-	if abs(position.x - get_parent().centerBound) < 100: return -1
+	if position.x < get_parent().edgeBound + 100: return 1
+	if position.x > get_parent().centerBound - 100: return -1
 	var brickDiff: float = brickAbove.position.x - position.x
 	return -abs(brickDiff)/brickDiff
 
