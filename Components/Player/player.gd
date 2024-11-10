@@ -39,8 +39,13 @@ func toggleJoined():
 	print("Player is " + ("not " if not playerControlled else "") + "in control")
 	
 func checkForInputs():
+<<<<<<< Updated upstream
 	if punching == false and kicking == false:
 		#print("playing idle")
+=======
+	if punching == false and kicking == false and crouching == false:
+		print("playing idle")
+>>>>>>> Stashed changes
 		$Standing/AnimationPlayer.play("idle")
 	crouch(MultiplayerInput.get_action_raw_strength(deviceNum, "Crouch") > .4)
 	if MultiplayerInput.get_action_raw_strength(deviceNum, "Jump") > .7: jump()
@@ -88,8 +93,9 @@ func jump():
 
 func crouch(crouchingOn: bool):
 	crouching = crouchingOn
-	$Crouching.visible = crouching
-	$Standing.visible = !crouching
+	#$Crouching.visible = crouching
+	$Standing/AnimationPlayer.play("crouch")
+	#$Standing.visible = !crouching
 	#$Foot.visible = !crouching and !jumping
 	$Standing/HurtBox.set_monitoring(!crouching)
 	$Crouching/HurtBox.set_monitoring(crouching)
