@@ -103,7 +103,8 @@ func move(delta: float, strength: float):
 	var frictionForce: float = clampf((movingFriction if abs(strength) > .4 else slowingFriction) * delta, 0, abs(currentSpeed))
 	if crouching: frictionForce *= 1.5
 	currentSpeed = currentSpeed - frictionForce * sign(currentSpeed)
-	self.position.x = clampf(self.position.x + currentSpeed * shotDirection * delta, get_parent().edgeBound, get_parent().centerBound)
+	if abs(currentSpeed) > 0 and abs(strength) > .4: $Standing/AnimationPlayer.play("move")
+	position.x = clampf(position.x + currentSpeed * shotDirection * delta, get_parent().edgeBound, get_parent().centerBound)
 	#if deviceNum == 0: print(sign(currentSpeed), " Speed: ", round(currentSpeed), " Input: ", round(strength), " Friction: ", round(frictionForce), " Applied: ", appliedForce)
 
 func jump():
