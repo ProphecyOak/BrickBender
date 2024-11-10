@@ -26,7 +26,7 @@ func shoot():
 	if Time.get_unix_time_from_system() - lastHit < .5: return
 	health -=   1
 	if health <= 0:
-		breakApart()
+		breakApart(false)
 		return
 	if health == 3: horizontalSpeed = 10
 	else: horizontalSpeed = 2 + abs(horizontalSpeed)
@@ -34,11 +34,13 @@ func shoot():
 	shotBack = !shotBack
 	fallSpeed = 0
 	
-func breakApart():
+func breakApart(hitByPlayer: bool = true):
 	$Hurtbox.set_monitorable(false)
 	$Hitbox.set_monitorable(false)
-	modulate = Color(0, .5, 0)
-	horizontalSpeed *= -.1
+	$AnimationPlayer.play("explode")
+	#modulate = Color(0, .5, 0)
+	rotation_speed = 0
+	if hitByPlayer: horizontalSpeed *= -.1
 	fallSpeed = 3
 	await get_tree().create_timer(.5).timeout
 	queue_free()
