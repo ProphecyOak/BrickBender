@@ -1,22 +1,22 @@
 [gd_scene load_steps=3 format=3 uid="uid://beljxsbide7ar"]
 
-[ext_resource type="Texture2D" uid="uid://c8107w5cacaxo" path="res://Assets/icon.svg" id="1_6ijtw"]
 [ext_resource type="Script" path="res://Components/Player Container/health_bar.gd" id="1_kky5l"]
+[ext_resource type="Texture2D" uid="uid://cgg1qebilteer" path="res://Assets/pixelHeart.webp" id="2_pl1nk"]
 
 [node name="HealthBar" type="Node2D"]
 script = ExtResource("1_kky5l")
 
 [node name="Icon" type="Sprite2D" parent="."]
-modulate = Color(1, 0.0941176, 0.313726, 1)
-position = Vector2(75, -75)
-texture = ExtResource("1_6ijtw")
+position = Vector2(90, -76)
+scale = Vector2(0.132617, 0.134375)
+texture = ExtResource("2_pl1nk")
 
 [node name="Icon2" type="Sprite2D" parent="."]
-modulate = Color(1, 0.0941176, 0.313726, 1)
-position = Vector2(250, -75)
-texture = ExtResource("1_6ijtw")
+position = Vector2(250, -78)
+scale = Vector2(0.132617, 0.134375)
+texture = ExtResource("2_pl1nk")
 
 [node name="Icon3" type="Sprite2D" parent="."]
-modulate = Color(1, 0.0941176, 0.313726, 1)
-position = Vector2(425, -75)
-texture = ExtResource("1_6ijtw")
+position = Vector2(412, -76)
+scale = Vector2(0.132617, 0.134375)
+texture = ExtResource("2_pl1nk")

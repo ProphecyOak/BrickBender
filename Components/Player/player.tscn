@@ -138,6 +138,7 @@ collision_mask = 2
 shape = SubResource("CapsuleShape2D_w0hfb")
 
 [node name="Crouching" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(0, 46.75)
 scale = Vector2(0.552734, 0.496092)
 texture = ExtResource("1_f7eq7")
@@ -151,6 +152,7 @@ position = Vector2(0, -15.6221)
 shape = SubResource("CapsuleShape2D_1xgon")
 
 [node name="Fist" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(22, -15)
 scale = Vector2(0.289063, 0.195313)
 texture = ExtResource("1_f7eq7")
@@ -164,6 +166,7 @@ position = Vector2(150, -67.84)
 shape = SubResource("RectangleShape2D_kdb7r")
 
 [node name="Foot" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(23, 59)
 scale = Vector2(0.289063, 0.195313)
 texture = ExtResource("1_f7eq7")
@@ -178,6 +181,7 @@ position = Vector2(150, 0)
 shape = SubResource("RectangleShape2D_kdb7r")
 
 [node name="AI" type="Node2D" parent="."]
+visible = false
 modulate = Color(1, 0.345098, 1, 1)
 
 [node name="InFrontFist" type="Area2D" parent="AI"]
