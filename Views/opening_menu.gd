@@ -13,7 +13,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if Input.is_action_just_pressed("ui_accept") and !sequenceDone:
+	if MultiplayerInput.is_action_just_pressed(0, "ui_accept") and !sequenceDone:
 		$RichTextLabel/CoinSound.play()
 		$RichTextLabel/AnimationPlayer.play("blank")
 		await get_tree().create_timer(2).timeout
@@ -115,8 +115,10 @@ func _process(delta):
 		$FirstPopup.visible = true
 		$SecondPopup.visible = true
 		$AvatarTheme.play()
+		
 		print("playing animation")
 		await get_tree().create_timer(2).timeout
+		
 		$Title/AnimationPlayer.play("fade_in")
 		await get_tree().create_timer(6).timeout
 		$Spawner.visible = true
@@ -124,8 +126,6 @@ func _process(delta):
 		$PlayLabel.visible = true
 		$PlayLabel/AnimationPlayer.play("blink")
 	
-	if Input.is_action_just_pressed("ui_accept") and sequenceDone:
-		get_tree().change_scene_to_file("res://Views/battle.tscn")
-	
-	
-
+	if MultiplayerInput.is_action_just_pressed(0, "ui_accept") and sequenceDone:
+		PlayerManager.inGame = true
+		get_tree().change_scene_to_file("res://Views/battle.tscn")  	 

@@ -1,6 +1,4 @@
 extends Node2D
-
-
 class_name PlayerCharacter
 
 @onready var deviceNum: int = get_parent().deviceNum
@@ -69,7 +67,7 @@ func determineAIBehavior(delta: float):
 		moveDirection *= 1 if deviceNum == 0 else -1
 		startedMoving = currentTime
 	move(delta, moveDirection)
-	if Time.get_unix_time_from_system() - lastAggression > .5:
+	if Time.get_unix_time_from_system() - lastAggression > .5 and !jumping and !crouching and !kicking and !punching:
 		if len($AI/InFrontFist.get_overlapping_areas()) > 0 and randf() < .5:
 			#Brick in punching range
 			await get_tree().create_timer(.1).timeout
@@ -89,6 +87,9 @@ func anim_done(anim_name: String):
 	if anim_name == "jump": jumpDone()
 	if anim_name == "kick": kickDone()
 	if anim_name == "punch": punchDone()
+	
+func changeAnim(anim_name: String):
+	print(anim_name)
 
 func move(delta: float, strength: float):
 	var appliedForce: float = 0.0 if jumping else acc * strength * delta
@@ -99,7 +100,8 @@ func move(delta: float, strength: float):
 	if !punching and !kicking and !jumping:
 		if crouching: $AnimationPlayer.play("crouch")
 		elif abs(currentSpeed) > 0 and abs(strength) > .4: $AnimationPlayer.play("move")
-		else: $AnimationPlayer.play("idle")
+		else: $AnimationPlayer.play(
+			"idle")
 	position.x = clampf(position.x + currentSpeed * shotDirection * delta, get_parent().edgeBound, get_parent().centerBound)
 	#if deviceNum == 0: print(sign(currentSpeed), " Speed: ", round(currentSpeed), " Input: ", round(strength), " Friction: ", round(frictionForce), " Applied: ", appliedForce)
 
@@ -112,6 +114,7 @@ func jump():
 	$JumpingHurtBox.set_monitorable(true)
 	
 func jumpDone():
+
 	defaultY += jumpHeight
 	$StandingHurtBox.set_monitorable(true)
 	$JumpingHurtBox.set_monitorable(false)
@@ -163,6 +166,7 @@ func kick():
 	
 func kickDone():
 	$AnimationPlayer.play("idle")
+	
 	await get_tree().create_timer(.25).timeout
 	$FootHitBox.position.x -= 10
 	kicking = false
@@ -183,3 +187,4 @@ func hitByBrick(area):
 		$EffectHandler.play("Invulnerable")
 		await $EffectHandler.animation_finished
 	invulnerable = false
+
